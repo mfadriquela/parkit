@@ -56,8 +56,6 @@ Note:
 ############################################################################################
 How to run parkit on desktop
 
-Note: Skip step 1 and 2 if you already imported parkit
-
 1. Open phonegap desktop application.
 
 2. Click the "+" icon and select "open existing project".
