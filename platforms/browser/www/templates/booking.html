@@ -1,0 +1,90 @@
+<div class="float-button animated slideInUp">
+    <span class="height-fix">
+        <a class="content" ng-click="addBooking()">
+            <i class="icon ion-android-add"></i>
+        </a>
+    </span>
+</div>
+<ion-view title="Booking" id="booking">
+  <ion-content padding="false" class="has-header app-background" ng-init="initialize()">
+    <ion-list ng-show="bookings.length < 1" class="ng-hide">
+      <div class="spacer" style="height: 20px;"></div>
+      <div class="animated slideInDown">
+        <p class="app-instruction">Book now by tapping the <i class="icon ion-android-add-circle"></i> button at the bottom right.</p>
+      </div>
+    </ion-list>
+    <ion-list ng-repeat="booking in bookings track by $index">
+      <div class="animated slideInUp">
+          <ion-item class="item-avatar item-icon-right app-item-border-top" ng-click="viewBookingDetail(booking)">
+              <img src="img/parking.png">
+              <h2>{{booking.parking_slot_no}}</h2>
+              <p>{{booking.parking_title}}</p>
+              <i class="icon">
+                <span class="" style="font-size:12px;color:#2f5a78;">Php {{booking.rate}}</span>
+                <div class="spacer" style="width: 10px;"></div>
+                <span class="" style="font-size:12px;color:red;">({{booking.status}})</span>
+              </i>
+          </ion-item>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>
+<div ng-show="showBookingDetail" class="app-booking-details-form ng-hide">
+  <div class="app-booking-details-form-content animated slideInUp">
+    <ion-list>
+      <ion-item class="item-avatar item-icon-right">
+        <img src="img/car1.jpg">
+        <h2>{{tempBooking.parking_slot_no}}</h2>
+        <p>{{tempBooking.parking_title}}</p>
+        <i class="icon">
+          <span class="" style="font-size:14px;color:#2f5a78;">{{tempBooking.status}}</span>
+        </i>
+      </ion-item>
+      <div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+      <label class="item item-input app-item-border-top" name="date_from">
+        <span class="input-label app-input-label">Location:</span>
+        <span class="input-label app-input-sublabel" >{{tempBooking.parking_location}}</span>
+      </label>
+      <label class="item item-input app-item-no-border" name="date_from">
+        <span class="input-label app-input-label">From:</span>
+        <span class="input-label app-input-sublabel" >{{tempBooking.from_date}}</span>
+      </label>
+      <label class="item item-input app-item-no-border" name="date_to">
+        <span class="input-label app-input-label">To:</span>
+        <span class="input-label app-input-sublabel" >{{tempBooking.to_date}}</span>
+      </label>
+      <label class="item item-input app-item-border-bottom" name="date_to">
+        <span class="input-label app-input-label">Rate:</span>
+        <span class="input-label app-input-sublabel" >{{tempBooking.rate}}</span>
+      </label>
+      <div ng-show="tempBooking.status=='Reserved'" class="button-bar app-form-bar ng-hide">
+          <button class="button button-block app-button" ng-click="confirmBooking()">
+              I've Arrived
+          </button>
+          <button class="button button-block app-button" ng-click="cancelBooking()">
+              Cancel Booking
+          </button>
+      </div>
+      <div ng-show="tempBooking.status=='Arrived'" class="button-bar app-form-bar ng-hide">
+          <button class="button button-block app-button" ng-click="clearBooking()">
+              Parkway Clear
+          </button>
+          <button class="button button-block app-button" ng-click="cancelBooking()">
+              Cancel Booking
+          </button>
+      </div>
+      <div ng-show="tempBooking.status=='Cleared'" class="button-bar app-form-bar ng-hide">
+          <button class="button button-block app-button" ng-click="closeBookingDetail()">
+              Back to List
+          </button>
+      </div>
+      <div ng-show="tempBooking.status=='Cancelled'" class="button-bar app-form-bar ng-hide">
+          <button class="button button-block app-button" ng-click="closeBookingDetail()">
+              Back to List
+          </button>
+      </div>
+    </ion-list>
+  </div>
+</div>

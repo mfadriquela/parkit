@@ -1,0 +1,148 @@
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+.calendar {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:90%;
+    background-color: #000;
+    overflow:auto;
+    z-index:1000;
+}
+
+/* Month header */
+.month {
+    padding: 40px 20px;
+    background: #000;
+    text-align: center;
+}
+
+/* Month list */
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+
+.month ul li {
+    color: #1edfb3;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* Previous button inside month header */
+.month .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+/* Next button */
+.month .next {
+    float: right;
+    padding-top: 10px;
+}
+
+/* Weekdays (Mon-Sun) */
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color:#ddd;
+}
+
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+
+/* Days (1-31) */
+.days {
+    background: #fff;
+    margin: 10px;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color:#444444;
+}
+
+/* Highlight the "current" day */
+.days li .active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+}
+
+.days .day {
+    border-radius:50%;
+    padding:10px;
+    width:40px;
+    height:40px;
+    text-align:center;
+}
+
+.time {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgb(0,0,0);
+    background-color:rgba(0,0,0,0.4);
+    z-index:1000;
+}
+
+.time-content {
+    position:fixed;
+    bottom:0;
+    left:0;
+    padding:10px;
+    width:100%;
+    height:85%;
+    overflow:auto;
+    background-color:#000;
+}
+.time-header {
+    padding: 30px 0;
+    background: #000;
+}
+
+.time-body {
+    padding: 10px 10px;
+    background: #fff;
+    text-align: center;
+}
+
+.time-num {
+    display: inline-block;
+}
+
+.time-num a {
+    float: left;
+    margin-left: -1px;
+    padding: 12px 14px;
+    background-color: #fff;
+    font-size: 18px;
+    color: #555;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #555;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.time-num a.active {
+    background-color: #1edfb3;
+}
+
+.time-num a.disabled {
+    background-color: #999;
+}

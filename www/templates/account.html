@@ -1,0 +1,135 @@
+<ion-view title="Account" id="account">
+    <ion-content padding="" class="has-header black" ng-init="initialize()">
+        <div class="animated slideInDown">
+            <div class="app-item-banner">
+                <div>
+                    <img class="app-item-banner-image" src="img/user.png">
+                </div>
+                <h4 class="app-item-banner-subheading">No need to keep your overall profile attractive. The simple the better.</h4>
+            </div>
+        </div>
+        <div class="animated slideInUp">
+            <ion-item class="item-icon-right app-item cyan" style="padding-top:20px;padding-bottom:20px;">
+                <h2>Account</h2>
+                <p>Tap the field to change the value</p>
+            </ion-item>
+        </div>
+        <div class="white animated slideInUp" style="padding-top:20px;padding-bottom:20px;background-color:#fff">
+            <ion-item class="item-icon-left app-item white" ng-click="changeName()">
+                <i class="icon">
+                    <span class="app-black-font ion-card"></span>
+                </i>
+                <h2>Name</h2>
+                <p>{{user.name}}</p>
+            </ion-item>
+            <div class="app-item-separator black" style="margin-left:50px;margin-right:20px;"></div>
+            <ion-item class="item-icon-left item-icon-right app-item white">
+                <i class="icon">
+                    <span class="app-black-font ion-ios-telephone"></span>
+                </i>
+                <h2>Mobile</h2>
+                <p>{{user.mobile}}</p>
+            </ion-item>
+            <div class="app-item-separator black" style="margin-left:50px;margin-right:20px;"></div>
+            <ion-item class="item-icon-left app-item white" ng-click="changeEmail()">
+                <i class="icon">
+                    <span class="app-black-font ion-email"></span>
+                </i>
+                <h2>Email</h2>
+                <p>{{user.email}}</p>
+            </ion-item>
+            <div class="app-item-separator black" style="margin-left:50px;margin-right:20px;"></div>
+            <ion-item class="item-icon-left app-item white" ng-click="changePassword()">
+                <i class="icon">
+                    <span class="app-black-font ion-android-unlock"></span>
+                </i>
+                <h2>Password</h2>
+                <p>********************</p>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>
+<div ng-show="forms.changeName" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:60%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header">
+                <i> Change name</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <label class="item item-input app-item" name="name">
+                    <input type="text" placeholder="Name" ng-model="tempUser.name">
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="saveName()">
+                    Submit
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="discardChanges()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.changeEmail" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:60%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header">
+                <i> Change email</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <label class="item item-input app-item" name="email">
+                    <input type="text" placeholder="Email" ng-model="tempUser.email">
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="saveEmail()">
+                    Submit
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="discardChanges()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.changePassword" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:65%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header">
+                <i> Change password</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <label class="item item-input app-item" name="password">
+                    <input type="password" placeholder="New password" ng-model="tempUser.password">
+                </label>
+                <label class="item item-input app-item" name="confirm_password">
+                    <input type="password" placeholder="Re-type new password" ng-model="tempUser.confirm_password">
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="savePassword()">
+                    Submit
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="discardChanges()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<ion-view title="Payment" id="payment">
+    <ion-content padding="" class="has-header black" ng-init="initialize()">
+        <div class="animated slideInDown">
+            <div class="app-item-banner">
+                <div>
+                    <img class="app-item-banner-image" src="img/card.png">
+                </div>
+                <h4 class="app-item-banner-subheading">Payment method is the way in which customers pay for the items that they purchased.</h4>
+            </div>
+        </div>
+        <div class="animated slideInUp">
+            <ion-item class="item-icon-right app-item cyan" style="padding-top:20px;padding-bottom:20px;">
+                <h2>Payment Methods</h2>
+                <p>Tap the + button to add payment method</p>
+                <i class="icon">
+                    <span class="ion-android-add" style="color:#000;" ng-click="addPaymentMethod()"></span>
+                </i>
+            </ion-item>
+        </div>
+        <ion-list ng-repeat="payment in payments track by $index">
+            <div class="animated slideInUp" style="margin-bottom:20px;padding-top:20px;padding-bottom:20px;background-color:#fff">
+                <ion-item class="item-icon-right app-item white">
+                    <h2>Card Type</h2>
+                    <p>{{payment.card_type}}</p>
+                    <i class="icon">
+                        <span class="ion-compose app-gray-font" style="color:#000;" ng-click="editPaymentMethod(payment)"></span>
+                        <div class="spacer" style="width: 15px;"></div>
+                        <span class="ion-android-delete app-gray-font" style="color:#000;" ng-click="deletePaymentMethod(payment)"></span>
+                    </i>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:70px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Card No</h2>
+                    <p>{{payment.card_no}}</p>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:70px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Expiry Date</h2>
+                    <p>{{payment.expiry_mm}} / {{payment.expiry_yy}}</p>
+                </ion-item>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>
+<div ng-show="showForm" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:85%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="item-icon-right app-item app-item-header">
+                <i> {{tempPayment.action}} Payment</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <div class="spacer" style="height:10px;"></div>
+                <label class="item item-select app-item" style="text-align:left" name="card_type">
+                    <span class="input-label app-item-span">Card Type:</span>
+                    <select style="background-color:#000;font-size:16px;color:#fff;" placeholder="Card type" ng-model="tempPayment.card_type">
+                        <option style="background-color:#000;font-size:16px;color:#fff;">Credit / Debit</option>
+                        <option style="background-color:#000;font-size:16px;color:#fff;">Paymaya</option>
+                    </select>
+                </label>
+                <div class="spacer" style="height:10px;"></div>
+                <label class="item item-input app-item" name="card_no">
+                    <span class="input-label app-item-span">Card No:</span>
+                    <input type="text" placeholder="" ng-model="tempPayment.card_no">
+                </label>
+                <label class="item item-input app-item" name="expiry_mm">
+                    <span class="input-label app-item-span">Expiry MM:</span>
+                    <input type="number" placeholder="" ng-model="tempPayment.expiry_mm">
+                </label>
+                <label class="item item-input app-item" name="expiry_yy">
+                    <span class="input-label app-item-span">Expiry YY:</span>
+                    <input type="number" placeholder="" ng-model="tempPayment.expiry_yy">
+                </label>
+                <label class="item item-input app-item" name="security_code">
+                    <span class="input-label app-item-span">CVC Code:</span>
+                    <input type="number" placeholder="" ng-model="tempPayment.security_code">
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="saveChanges()">
+                    Save
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="discardChanges()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

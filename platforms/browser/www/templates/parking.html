@@ -1,0 +1,263 @@
+<ion-view title="Parking" id="parking">
+    <ion-content padding="" class="has-header black" ng-init="initialize()">
+        <div class="animated slideInDown">
+            <div class="app-item-banner">
+                <div>
+                    <img class="app-item-banner-image" src="img/parking.png">
+                </div>
+                <h4 class="app-item-banner-subheading">Parking space or car park, also known as a car lot, is a cleared area that is intended for parking vehicles.</h4>
+            </div>
+        </div>
+        <div class="animated slideInUp">
+            <ion-item class="item-icon-right app-item cyan" style="padding-top:20px;padding-bottom:20px;">
+                <h2>Parking Space</h2>
+                <p>Tap the + button to add parking space</p>
+                <i class="icon">
+                    <span class="ion-android-add" style="color:#000;" ng-click="addParkingSpace()"></span>
+                </i>
+            </ion-item>
+        </div>
+        <ion-list ng-repeat="parking in parkings track by $index">
+            <div class="animated slideInUp" style="margin-bottom:20px;padding-top:20px;padding-bottom:20px;background-color:#fff">
+                <ion-item class="item-icon-right app-item white">
+                    <h2>Slot No</h2>
+                    <p>{{parking.slot_no}}</p>
+                    <i class="icon">
+                        <span class="ion-compose" style="color:#000;" ng-click="editParkingSpace(parking)"></span>
+                        <div class="spacer" style="width: 15px;"></div>
+                        <span class="ion-android-delete app-gray-font" style="color:#000;" ng-click="deleteParkingSpace(parking)"></span>
+                    </i>
+                </ion-item>
+                <ion-list >
+                    <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider" delegate-handle="slider" id="parking-space-slider" style="margin:15px;width:92%;height:200px;">
+                        <ion-slide-page ng-repeat="image in parking.images" style="background:url({{image}}) no-repeat center;background-size:cover;"></ion-slide-page>
+                    </ion-slides>
+                </ion-list>
+                <div class="button-bar app-button-bar">
+                    <button class="button button-cyan button-block" ng-click="manageImage(parking)" title="Upload Image">
+                        <div class="ion-android-camera">
+                            <font style="font-size:14px"> Image</font>
+                        </div>
+                    </button>
+                    <div class="separator" style="width:2px;"></div>
+                    <button class="button button-cyan button-block" ng-click="setLocation(parking)" title="Set Location">
+                        <div class="ion-ios-location">
+                            <font style="font-size:14px"> Location</font>
+                        </div>
+                    </button>
+                    <div class="separator" style="width:2px;"></div>
+                    <button class="button button-cyan button-block" ng-click="setAvailability(parking)" title="Set Availability">
+                        <div class="ion-calendar">
+                            <font style="font-size:14px"> Availability</font>
+                        </div>
+                    </button>
+                </div>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Title</h2>
+                    <p>{{parking.title}}</p>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Location</h2>
+                    <p>{{parking.location}}</p>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Rate</h2>
+                    <p>{{parking.rate}}</p>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Description</h2>
+                    <p>{{parking.description}}</p>
+                </ion-item>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>
+<div ng-show="forms.editParking" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:90%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="item-icon-right app-item app-item-header">
+                <i> {{tempParking.action}} Parking</i>
+                <i ng-show="tempParking.action=='Edit'" class="icon ng-hide">
+                    <span class="app-cyan-font ion-android-close" ng-click="deleteParking()"></span>
+                </i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <label class="item item-input app-item" name="title">
+                    <span class="input-label app-item-span">Title:</span>
+                    <input type="text" placeholder="" ng-model="tempParking.title">
+                </label>
+                <label class="item item-input app-item" name="location">
+                    <span class="input-label app-item-span">Location:</span>
+                    <input type="text" placeholder="" ng-model="tempParking.location">
+                </label>
+                <label class="item item-input app-item" name="rate">
+                    <span class="input-label app-item-span">Rate:</span>
+                    <input type="number" placeholder="" ng-model="tempParking.rate">
+                </label>
+                <label class="item item-input app-item" name="description">
+                    <textarea placeholder="Description" style="height:140px" ng-model="tempParking.description"></textarea>
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="saveChanges()">
+                    Save
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="discardChanges()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.manageImage" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:75%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header" style="padding-left:0;padding-right:0">
+                <i>Parking Space Image</i>
+            </ion-item>
+            <div class="spacer" style="height: 10px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list >
+              <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider" delegate-handle="slider" id="parking-space-slider" style="width:100%;height:200px;">
+                <ion-slide-page ng-repeat="image in tempParking.images" style="background:url({{image}}) no-repeat center;background-size:cover;">
+                    <div class="black" style="opacity:0.8">
+                        <div class="app-xlarge-font app-cyan-font ion-close-circled" style="padding:5px 10px;text-align:right" ng-click="deleteImage(image)"></div>
+                    </div>
+                </ion-slide-page>
+              </ion-slides>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="uploadImage()">
+                    Upload
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="closeManageImage()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.setAvailableDay" class="calendar" class="ng-hide">
+    <div class="animated slideInUp">
+        <div class="month">
+            <ul>
+                <li class="prev" ng-click="prevMonth()">&#10094;</li>
+                <li class="next" ng-click="nextMonth()">&#10095;</li>
+                <li>
+                    {{months[currentMonth]}}<br>
+                    <span style="font-size:18px">
+                        {{currentYear}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <ul class="days"> 
+            <div class="cyan">
+                <div style="padding:0px 10px">
+                    <li class="" ng-repeat="wd in weekDays track by $index">
+                        <div class="day" style="background-color:#1edfb3;">{{wd}}</div>
+                    </li>
+                </div>
+            </div>
+            <div class="white">
+                <div style="padding:0px 10px;">
+                    <li class="" ng-repeat="bd in blankDays track by $index">
+                        <div class="day">{{bd}}</div>
+                    </li>
+                    <li class="" ng-repeat="nd in numDays track by $index">
+                        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay(nd)">{{nd}}</div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+        <div class="button-bar" style="padding:10px">
+            <button class="button button-block cyan" ng-click="closeCalendar()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="forms.setAvailableTime" class="time ng-hide">
+    <div class="time-content animated slideInUp">
+        <div class="time-header">
+            <ion-item class="item-icon-right app-item black">
+                <div class="app-large-font app-cyan-font">{{months[currentMonth]}} {{currentDay}}, {{currentYear}}</div>
+                <p> Select available time</p>
+                <i class="icon">
+                    <p style="margin-right:5px;">Select all</p>
+                    <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllTime()" ng-model="availableTime.checkAll"></input>
+                </i>
+            </ion-item>
+        </div>
+        <div class="time-body">
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">AM</p>
+                <i class="icon">
+                    <p style="margin-right:5px;">Select all AM</p>
+                    <input type="checkbox" style="margin-right:0px;height:20px;width:20px;" ng-click="toggleAllAm()" ng-model="availableTime.checkAllAm"></input>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[0].available ? (tempAvailability.hours[0].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(0)">{{tempAvailability.hours[0].time}}</a>
+                <a class="{{tempAvailability.hours[1].available ? (tempAvailability.hours[1].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(1)">{{tempAvailability.hours[1].time}}</a>
+                <a class="{{tempAvailability.hours[2].available ? (tempAvailability.hours[2].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(2)">{{tempAvailability.hours[2].time}}</a>
+                <a class="{{tempAvailability.hours[3].available ? (tempAvailability.hours[3].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(3)">{{tempAvailability.hours[3].time}}</a>
+                <a class="{{tempAvailability.hours[4].available ? (tempAvailability.hours[4].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(4)">{{tempAvailability.hours[4].time}}</a>
+                <a class="{{tempAvailability.hours[5].available ? (tempAvailability.hours[5].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(5)">{{tempAvailability.hours[5].time}}</a>
+            </div>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[6].available ? (tempAvailability.hours[6].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(6)">{{tempAvailability.hours[6].time}}</a>
+                <a class="{{tempAvailability.hours[7].available ? (tempAvailability.hours[7].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(7)">{{tempAvailability.hours[7].time}}</a>
+                <a class="{{tempAvailability.hours[8].available ? (tempAvailability.hours[8].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(8)">{{tempAvailability.hours[8].time}}</a>
+                <a class="{{tempAvailability.hours[9].available ? (tempAvailability.hours[9].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(9)">{{tempAvailability.hours[9].time}}</a>
+                <a class="{{tempAvailability.hours[10].available ? (tempAvailability.hours[10].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(10)">{{tempAvailability.hours[10].time}}</a>
+                <a class="{{tempAvailability.hours[11].available ? (tempAvailability.hours[11].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(11)">{{tempAvailability.hours[11].time}}</a>
+            </div>
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">PM</p>
+                <i class="icon">
+                    <p style="margin-right:5px;">Select all PM</p>
+                    <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllPm()" ng-model="availableTime.checkAllPm"></input>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[12].available ? (tempAvailability.hours[12].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(12)">{{tempAvailability.hours[12].time}}</a>
+                <a class="{{tempAvailability.hours[13].available ? (tempAvailability.hours[13].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(13)">{{tempAvailability.hours[13].time}}</a>
+                <a class="{{tempAvailability.hours[14].available ? (tempAvailability.hours[14].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(14)">{{tempAvailability.hours[14].time}}</a>
+                <a class="{{tempAvailability.hours[15].available ? (tempAvailability.hours[15].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(15)">{{tempAvailability.hours[15].time}}</a>
+                <a class="{{tempAvailability.hours[16].available ? (tempAvailability.hours[16].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(16)">{{tempAvailability.hours[16].time}}</a>
+                <a class="{{tempAvailability.hours[17].available ? (tempAvailability.hours[17].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(17)">{{tempAvailability.hours[17].time}}</a>
+            </div>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[18].available ? (tempAvailability.hours[18].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(18)">{{tempAvailability.hours[18].time}}</a>
+                <a class="{{tempAvailability.hours[19].available ? (tempAvailability.hours[19].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(19)">{{tempAvailability.hours[19].time}}</a>
+                <a class="{{tempAvailability.hours[20].available ? (tempAvailability.hours[20].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(20)">{{tempAvailability.hours[20].time}}</a>
+                <a class="{{tempAvailability.hours[21].available ? (tempAvailability.hours[21].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(21)">{{tempAvailability.hours[21].time}}</a>
+                <a class="{{tempAvailability.hours[22].available ? (tempAvailability.hours[22].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(22)">{{tempAvailability.hours[22].time}}</a>
+                <a class="{{tempAvailability.hours[23].available ? (tempAvailability.hours[23].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(23)">{{tempAvailability.hours[23].time}}</a>
+            </div>
+        </div>
+        <div class="spacer" style="height:10px;"></div>
+        <div class="button-bar">
+            <button class="button button-cyan button-block" ng-click="saveAvailability()">
+                Save
+            </button>
+            <div class="separator" style="width:2px;"></div>
+            <button class="button button-cyan button-block" ng-click="cancelAvailability()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>

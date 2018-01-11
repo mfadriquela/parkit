@@ -1,0 +1,92 @@
+<ion-view title="Login" id="login" class="cyan">
+    <ion-content padding="" class="" ng-init="initialize()">
+        <!--<img class="app-login-logo" src="img/logo-1.png">-->
+    </ion-content>
+</ion-view>
+<div ng-show="forms.loginUser" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:60%;">
+        <form class="list">
+            <ion-item class="app-item app-item-header">
+                <i> Enter email and password</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <label class="item item-input app-item" name="email">
+                <input type="text" placeholder="Email" ng-model="user.email">
+            </label>
+            <label class="item item-input app-item" name="password">
+                <input type="password" placeholder="Password" ng-model="user.password">
+            </label>
+            <div class="app-item-separator"></div>
+            <div class="button-bar app-form-bar">
+                <button class="button button-cyan button-block" ng-click="logIn()">
+                  Login
+                </button>
+            </div>
+            <div class="button-bar">
+                <button class="button button-black button-block app-small-font" ng-click="showResetPasswordForm()">Forgot Password</button>
+                <button class="button button-black button-block app-small-font" ng-click="showCreateAccountForm()">Create Account</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.createAccount" class="app-form ng-hide">
+    <div class="app-form-content animated slideInUp" style="height:80%;">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header">
+                <i> Create new account</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <ion-list>
+                <label class="item item-input app-item" name="name">
+                    <input type="text" placeholder="Name" ng-model="user.name">
+                </label>
+                <label class="item item-input app-item" name="mobile_no">
+                    <input type="number" placeholder="Mobile" ng-model="user.mobile_no">
+                </label>
+                <label class="item item-input app-item" name="email">
+                    <input type="text" placeholder="Email" ng-model="user.email">
+                </label>
+                <label class="item item-input app-item" name="password">
+                    <input type="password" placeholder="Password" ng-model="user.password">
+                </label>
+            </ion-list>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="createAccount()">
+                    Submit
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="showLoginUserForm()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-show="forms.resetPassword" class="app-form ng-hide">
+    <div class="app-form-content app-login animated slideInUp">
+        <form class="list">
+            <div class="spacer" style="height: 10px;"></div>
+            <ion-item class="app-item app-item-header">
+                <i> Send password reset email</i>
+            </ion-item>
+            <div class="spacer" style="height: 20px;"></div>
+            <div class="app-item-separator"></div>
+            <label class="item item-input app-item" name="email">
+                <input type="text" placeholder="Enter your registered email here..." ng-model="user.email">
+            </label>
+            <div class="app-item-separator"></div>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="resetPassword()">
+                    Submit
+                </button>
+                <div class="separator" style="width:2px;"></div>
+                <button class="button button-cyan button-block" ng-click="showLoginUserForm()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
