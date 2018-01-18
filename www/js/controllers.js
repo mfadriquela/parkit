@@ -94,6 +94,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         if (!$scope.validateEmail($scope.user.email)) {
             alert("Please enter valid email.");
         } else {
+            $rootScope.showLoader = true;
             // Signin to firebase using email and password
             firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password).then( function(auth) {
                 var user = firebase.auth().currentUser;
@@ -106,8 +107,10 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                         email: user.email,
                         token: idToken
                     });
+                    $rootScope.showLoader = false;
                     $state.go("bookParking");
                 }).catch(function(error) {
+                    $rootScope.showLoader = false;
                     alert(error.message);
                 });
             }).catch(function(error) {
@@ -1003,7 +1006,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         }
 
         $scope.forms = {
-            searchResult:false,
+            searchResult: false,
             parkingDetails: false,
             selectDateTime: false,
             bookingDetails: false
@@ -1011,6 +1014,12 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
 
         $scope.parkings = [];
     }
+
+    $scope.hideAllForms = function() {
+        for (var form in $scope.forms) {
+            $scope.forms[form] = false;
+        }
+    };
 
     $scope.generateId = function(){
         var result = '';
@@ -1022,7 +1031,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     $scope.searchLocation = function() {
         if ($window.sessionStorage.auth) {
             var auth = JSON.parse($window.sessionStorage.auth);
-            var url = 'https://parkit-10834.firebaseio.com/parking.json?orderBy="location"&startAt="' + $scope.search.word + '"&endAt="' + $scope.search.word + '\uf8ff"&auth=' + auth.token;
+            var url = 'https://parkit-10834.firebaseio.com/parking.json?auth=' + auth.token;
 
             $scope.parkings = [];
             $rootScope.showLoader = true;
@@ -1058,25 +1067,22 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.forms.searchResult = false;
     }
 
-    $scope.enableAdvanceBooking = function() {
-        $scope.search.advance = $scope.search.advance;
-        $scope.searchLocation();
-    }
-
     $scope.viewParking = function(parking) {
-        $scope.parking = parking;
+        $scope.tempParking = parking;
+        $scope.hideAllForms();
         $scope.forms.parkingDetails = true;
     }
 
     $scope.backToSearch = function(){
-        $scope.forms.parkingDetails = false;
+        $scope.hideAllForms();
+        $scope.forms.searchResult = true;
     }
 
     $scope.checkAvailability = function(){
         $scope.months = ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'];
         $scope.currentDate = new Date();
         $scope.setDate();
-        $scope.forms.parkingDetails = false;
+        $scope.hideAllForms();
         $scope.forms.selectDateTime = true;
     }
 
@@ -1116,7 +1122,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.numDays = Array.apply(null, Array(numberOfDays)).map(function (_, i) {return i+1;});
 
         var auth = JSON.parse($window.sessionStorage.auth);
-        var url = 'https://parkit-10834.firebaseio.com/availability.json?orderBy="parking_id"&equalTo="' + $scope.parking.id + '"&auth=' + auth.token;
+        var url = 'https://parkit-10834.firebaseio.com/availability.json?orderBy="parking_id"&equalTo="' + $scope.tempParking.id + '"&auth=' + auth.token;
 
         $rootScope.showLoader = true;
         $http.get(url).success(function (data, status, headers, config) {
