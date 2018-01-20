@@ -72,58 +72,70 @@
     </div>
 </div>
 <div ng-show="forms.selectDateTime" class="calendar ng-hide">
-  <div class="animated slideInUp">
-    <div class="month"> 
-      <ul>
-        <li class="prev" ng-click="prevMonth()">&#10094;</li>
-        <li class="next" ng-click="nextMonth()">&#10095;</li>
-        <li>
-          {{months[currentMonth]}}
-          <br>
-          <span style="font-size:18px">
-            {{currentYear}}
-          </span>
-        </li>
-      </ul>
+    <div class="calendar-content animated slideInUp" style="height:90%">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeAvailability()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator" style="margin:10px;"></div>
+        <div class="month">
+            <ul>
+                <li class="prev" ng-click="prevMonth()">&#10094;</li>
+                <li class="next" ng-click="nextMonth()">&#10095;</li>
+                <li>
+                    {{months[currentMonth]}}<br>
+                    <span style="font-size:18px">
+                        {{currentYear}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <ul class="days"> 
+            <div class="cyan">
+                <div style="padding:0px 10px">
+                    <li class="" ng-repeat="wd in weekDays track by $index">
+                        <div class="day" style="background-color:#1edfb3;">{{wd}}</div>
+                    </li>
+                </div>
+            </div>
+            <div class="white">
+                <div style="padding:0px 10px;">
+                    <li class="" ng-repeat="bd in blankDays track by $index">
+                        <div class="day">{{bd}}</div>
+                    </li>
+                    <li class="" ng-repeat="nd in numDays track by $index">
+                        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay($index, nd)">{{nd}}</div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+        <div style="margin:10px;">
+            <ion-item class="app-item cyan">
+                <h2>Date</h2>
+                <p>{{bookingDate.date}}</p>
+            </ion-item>
+            <label class="item item-select app-item-no-border" name="from_hr">
+                <span class="input-label app-input-label">From:</span>
+                <select ng-model="bookingDate.from">
+                  <option ng-repeat="hr in frmHrs track by $index" ng-click="selectFrom()" >{{hr}}</option>
+                </select>
+            </label>
+            <label class="item item-select app-item-border-bottom" name="to_hr">
+                <span class="input-label app-input-label">To:</span>
+                <select ng-model="bookingDate.to">
+                  <option ng-repeat="hr in toHrs track by $index">{{hr}}</option>
+                </select>
+            </label>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="book()">
+                    Book Now
+                </button>
+            </div>
+        </div>
     </div>
-    <ul class="days"> 
-      <li class="" ng-repeat="wd in weekDays track by $index">
-        <div class="day">{{wd}}</div>
-      </li>
-      <li class="" ng-repeat="bd in blankDays track by $index">
-        <div class="day">{{bd}}</div>
-      </li>
-      <li class="" ng-repeat="nd in numDays track by $index">
-        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay($index, nd)">{{nd}}</div>
-      </li>
-    </ul>
-    <ion-list>
-      <label class="item item-input app-item-border-top" name="date">
-        <span class="input-label app-input-label">Date:</span>
-        <span class="input-label app-input-sublabel">{{bookingDate.date}}</span>
-      </label>
-      <label class="item item-select app-item-no-border" name="from_hr">
-        <span class="input-label app-input-label">From:</span>
-        <select ng-model="bookingDate.from">
-          <option ng-repeat="hr in frmHrs track by $index" ng-click="selectFrom()" >{{hr}}</option>
-        </select>
-      </label>
-      <label class="item item-select app-item-border-bottom" name="to_hr">
-        <span class="input-label app-input-label">To:</span>
-        <select ng-model="bookingDate.to">
-          <option ng-repeat="hr in toHrs track by $index">{{hr}}</option>
-        </select>
-      </label>
-      <div class="button-bar app-form-bar">
-          <button class="button button-block app-button" ng-click="book()">
-              Book
-          </button>
-          <button class="button button-block app-button" ng-click="cancel()">
-              Cancel
-          </button>
-      </div>
-    </ion-list>
-  </div>
 </div>
 <div ng-show="forms.bookingDetails" class="app-booking-details-form ng-hide">
   <div class="app-booking-details-form-content animated slideInUp">

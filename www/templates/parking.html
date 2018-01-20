@@ -82,9 +82,6 @@
             <div class="spacer" style="height: 10px;"></div>
             <ion-item class="item-icon-right app-item app-item-header">
                 <i> {{tempParking.action}} Parking</i>
-                <i ng-show="tempParking.action=='Edit'" class="icon ng-hide">
-                    <span class="app-cyan-font ion-android-close" ng-click="deleteParking()"></span>
-                </i>
             </ion-item>
             <div class="spacer" style="height: 20px;"></div>
             <div class="app-item-separator"></div>
@@ -121,36 +118,42 @@
 <div ng-show="forms.manageImage" class="app-form ng-hide">
     <div class="app-form-content animated slideInUp" style="height:75%;">
         <form class="list">
-            <div class="spacer" style="height: 10px;"></div>
-            <ion-item class="app-item app-item-header" style="padding-left:0;padding-right:0">
-                <i>Parking Space Image</i>
+            <ion-item class="item-icon-right app-item app-item-header"  style="padding-left:0;padding-right:0;">
+                <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+                <p> {{tempParking.title}}</p>
+                <i class="icon">
+                    <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeManageImage()"></span>
+                </i>
             </ion-item>
-            <div class="spacer" style="height: 10px;"></div>
             <div class="app-item-separator"></div>
             <ion-list >
               <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider" delegate-handle="slider" id="parking-space-slider" style="width:100%;height:200px;">
                 <ion-slide-page ng-repeat="image in tempParking.images" style="background:url({{image}}) no-repeat center;background-size:cover;">
-                    <div class="black" style="opacity:0.8">
-                        <div class="app-xlarge-font app-cyan-font ion-close-circled" style="padding:5px 10px;text-align:right" ng-click="deleteImage(image)"></div>
-                    </div>
+                    <!--<div class="black" style="opacity:0.8">
+                        <div class="ion-android-delete app-xlarge-font app-white-font" style="padding:5px 10px;text-align:right" ng-click="deleteImage(image)"></div>
+                    </div>-->
                 </ion-slide-page>
               </ion-slides>
             </ion-list>
             <div class="app-item-separator"></div>
             <div class="button-bar">
                 <button class="button button-cyan button-block" ng-click="uploadImage()">
-                    Upload
-                </button>
-                <div class="separator" style="width:2px;"></div>
-                <button class="button button-cyan button-block" ng-click="closeManageImage()">
-                    Cancel
+                    Upload New Image
                 </button>
             </div>
         </form>
     </div>
 </div>
-<div ng-show="forms.setAvailableDay" class="calendar" class="ng-hide">
-    <div class="animated slideInUp">
+<div ng-show="forms.setAvailableDay" class="calendar ng-hide">
+    <div class="calendar-content animated slideInUp">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeCalendar()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator" style="margin:10px;"></div>
         <div class="month">
             <ul>
                 <li class="prev" ng-click="prevMonth()">&#10094;</li>
@@ -182,11 +185,6 @@
                 </div>
             </div>
         </ul>
-        <div class="button-bar" style="padding:10px">
-            <button class="button button-block cyan" ng-click="closeCalendar()">
-                Close
-            </button>
-        </div>
     </div>
 </div>
 <div ng-show="forms.setAvailableTime" class="time ng-hide">
@@ -198,7 +196,7 @@
                 <i class="icon">
                     <p style="margin-right:5px;">Select all</p>
                     <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllTime()" ng-model="availableTime.checkAll"></input>
-                </i>
+                </i>    
             </ion-item>
         </div>
         <div class="time-body">
