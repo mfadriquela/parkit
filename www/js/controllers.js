@@ -94,6 +94,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         if (!$scope.validateEmail($scope.user.email)) {
             alert("Please enter valid email.");
         } else {
+            $rootScope.showLoader = true;
             // Signin to firebase using email and password
             firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password).then( function(auth) {
                 var user = firebase.auth().currentUser;
@@ -106,8 +107,10 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                         email: user.email,
                         token: idToken
                     });
+                    $rootScope.showLoader = false;
                     $state.go("bookParking");
                 }).catch(function(error) {
+                    $rootScope.showLoader = false;
                     alert(error.message);
                 });
             }).catch(function(error) {
@@ -720,7 +723,6 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     };
 
     $scope.discardChanges = function(){
-        $scope.showForm = false;
         $scope.initialize();
     };
 
@@ -858,6 +860,10 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 var color = '#fff';
                 var cnt = 0;
 
+                if (new Date(date) < (new Date()).setHours(0,0,0,0)) {
+                    return color;
+                }
+
                 if (indx > -1){
                     for (i=0; i<$scope.tempParking.availability.hours[indx].length; ++i) {
                         if ($scope.tempParking.availability.hours[indx][i].available) { cnt += 1; }
@@ -866,6 +872,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
 
                 if (cnt > 23) { color = '#1abc9c'; }
                 else if (cnt > 0 && cnt < 24) { color = '#ffe764'; }
+                else { color = '#e6e6e6'; }
                 return color;
             });
             $rootScope.showLoader = false;
@@ -883,53 +890,56 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         var date = year + "-" + month + "-" + day;
         var indx = $scope.tempParking.availability.date.indexOf(date)
 
-        if (indx > -1){
-            $scope.tempAvailability = {
-                id: $scope.tempParking.availability.id[indx],
-                date: $scope.tempParking.availability.date[indx],
-                hours: $scope.tempParking.availability.hours[indx],
-                parking_id: $scope.tempParking.id
-            };
-        } else {
-            $scope.tempAvailability = {
-                id: $scope.generateId(),
-                date: date,
-                hours: [
-                    {time: '01', available: false, booked: false},
-                    {time: '02', available: false, booked: false},
-                    {time: '03', available: false, booked: false},
-                    {time: '04', available: false, booked: false},
-                    {time: '05', available: false, booked: false},
-                    {time: '06', available: false, booked: false},
-                    {time: '07', available: false, booked: false},
-                    {time: '08', available: false, booked: false},
-                    {time: '09', available: false, booked: false},
-                    {time: '10', available: false, booked: false},
-                    {time: '11', available: false, booked: false},
-                    {time: '12', available: false, booked: false},
-                    {time: '01', available: false, booked: false},
-                    {time: '02', available: false, booked: false},
-                    {time: '03', available: false, booked: false},
-                    {time: '04', available: false, booked: false},
-                    {time: '05', available: false, booked: false},
-                    {time: '06', available: false, booked: false},
-                    {time: '07', available: false, booked: false},
-                    {time: '08', available: false, booked: false},
-                    {time: '09', available: false, booked: false},
-                    {time: '10', available: false, booked: false},
-                    {time: '11', available: false, booked: false},
-                    {time: '12', available: false, booked: false}
-                ],
-                parking_id: $scope.tempParking.id
-            };
-        }
+        if (new Date(date) >= (new Date()).setHours(0,0,0,0)) {
 
-        $scope.availableTime = {
-            checkAll: false,
-            checkAllAm: false,
-            checkAllPm: false
+            if (indx > -1){
+                $scope.tempAvailability = {
+                    id: $scope.tempParking.availability.id[indx],
+                    date: $scope.tempParking.availability.date[indx],
+                    hours: $scope.tempParking.availability.hours[indx],
+                    parking_id: $scope.tempParking.id
+                };
+            } else {
+                $scope.tempAvailability = {
+                    id: $scope.generateId(),
+                    date: date,
+                    hours: [
+                        {time: '01', available: false, booked: false},
+                        {time: '02', available: false, booked: false},
+                        {time: '03', available: false, booked: false},
+                        {time: '04', available: false, booked: false},
+                        {time: '05', available: false, booked: false},
+                        {time: '06', available: false, booked: false},
+                        {time: '07', available: false, booked: false},
+                        {time: '08', available: false, booked: false},
+                        {time: '09', available: false, booked: false},
+                        {time: '10', available: false, booked: false},
+                        {time: '11', available: false, booked: false},
+                        {time: '12', available: false, booked: false},
+                        {time: '13', available: false, booked: false},
+                        {time: '14', available: false, booked: false},
+                        {time: '15', available: false, booked: false},
+                        {time: '16', available: false, booked: false},
+                        {time: '17', available: false, booked: false},
+                        {time: '18', available: false, booked: false},
+                        {time: '19', available: false, booked: false},
+                        {time: '20', available: false, booked: false},
+                        {time: '21', available: false, booked: false},
+                        {time: '22', available: false, booked: false},
+                        {time: '23', available: false, booked: false},
+                        {time: '24', available: false, booked: false}
+                    ],
+                    parking_id: $scope.tempParking.id
+                };
+            }
+
+            $scope.availableTime = {
+                checkAll: false,
+                checkAllAm: false,
+                checkAllPm: false
+            }
+            $scope.forms.setAvailableTime = true;
         }
-        $scope.forms.setAvailableTime = true;
     };
 
     $scope.selectTime = function(indx){
@@ -1003,7 +1013,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         }
 
         $scope.forms = {
-            searchResult:false,
+            searchResult: false,
             parkingDetails: false,
             selectDateTime: false,
             bookingDetails: false
@@ -1011,6 +1021,12 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
 
         $scope.parkings = [];
     }
+
+    $scope.hideAllForms = function() {
+        for (var form in $scope.forms) {
+            $scope.forms[form] = false;
+        }
+    };
 
     $scope.generateId = function(){
         var result = '';
@@ -1022,7 +1038,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     $scope.searchLocation = function() {
         if ($window.sessionStorage.auth) {
             var auth = JSON.parse($window.sessionStorage.auth);
-            var url = 'https://parkit-10834.firebaseio.com/parking.json?orderBy="location"&startAt="' + $scope.search.word + '"&endAt="' + $scope.search.word + '\uf8ff"&auth=' + auth.token;
+            var url = 'https://parkit-10834.firebaseio.com/parking.json?auth=' + auth.token;
 
             $scope.parkings = [];
             $rootScope.showLoader = true;
@@ -1058,26 +1074,26 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.forms.searchResult = false;
     }
 
-    $scope.enableAdvanceBooking = function() {
-        $scope.search.advance = $scope.search.advance;
-        $scope.searchLocation();
-    }
-
     $scope.viewParking = function(parking) {
-        $scope.parking = parking;
+        $scope.tempParking = parking;
+        $scope.hideAllForms();
         $scope.forms.parkingDetails = true;
     }
 
     $scope.backToSearch = function(){
-        $scope.forms.parkingDetails = false;
+        $scope.hideAllForms();
+        $scope.forms.searchResult = true;
     }
 
-    $scope.checkAvailability = function(){
+    $scope.checkAvailability = function(parking){
         $scope.months = ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'];
         $scope.currentDate = new Date();
         $scope.setDate();
-        $scope.forms.parkingDetails = false;
         $scope.forms.selectDateTime = true;
+    }
+
+    $scope.closeAvailability = function(parking){
+        $scope.forms.selectDateTime = false;
     }
 
     $scope.prevMonth = function(){
@@ -1101,49 +1117,63 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.setDays();
     }
 
+
     $scope.setDays = function(){
         var firstDay = new Date($scope.currentYear + "-" + ($scope.currentMonth + 1) + "-1").getDay();
         var numberOfDays = new Date($scope.currentYear, $scope.currentMonth + 1, 0).getDate();
 
-        $scope.availability = {
-            id:[],
-            date: [],
-            booked: []
-        };
-
+        $scope.tempParking.availability = {id:[], date: [], hours: []};
         $scope.weekDays = ['SU','MO','TU','WE','TH','FR','SA'];
         $scope.blankDays = Array.apply(null, Array(firstDay)).map(function (_, i) {return '';});
         $scope.numDays = Array.apply(null, Array(numberOfDays)).map(function (_, i) {return i+1;});
 
-        var auth = JSON.parse($window.sessionStorage.auth);
-        var url = 'https://parkit-10834.firebaseio.com/availability.json?orderBy="parking_id"&equalTo="' + $scope.parking.id + '"&auth=' + auth.token;
+        $scope.bookingDate = {
+            date: $scope.months[$scope.currentMonth] + " " + 01 + ", " + $scope.currentYear,
+            from: '00:00:00',
+            to: '00:00:00'
+        }
 
+        $scope.frmHrs = ['00:00:00'];
+        $scope.toHrs = ['00:00:00'];
+
+        var auth = JSON.parse($window.sessionStorage.auth);
+        var url = 'https://parkit-10834.firebaseio.com/availability.json?orderBy="parking_id"&equalTo="' + $scope.tempParking.id + '"&auth=' + auth.token;
         $rootScope.showLoader = true;
         $http.get(url).success(function (data, status, headers, config) {
             if (data) {
-                for (var key in data) {
-                    $scope.availability.id.push(key);
-                    $scope.availability.date.push(data[key].date);
-                    $scope.availability.booked.push(data[key].booked);
+                for (var dkey in data) {
+                    $scope.tempParking.availability.id.push(dkey);
+                    $scope.tempParking.availability.date.push(data[dkey].date);
+                    hrs = [];
+                    for (var hkey in data[dkey].hours) {
+                        hrs.push(data[dkey].hours[hkey]);
+                    }
+                    $scope.tempParking.availability.hours.push(hrs);
                 }
             }
+
             $scope.availDays = Array.apply(null, Array(numberOfDays)).map(function (_, d) {
                 var year = $scope.currentYear;
                 var month = ("0" + ($scope.currentMonth + 1)).slice(-2);
                 var day = ("0" + (d+1)).slice(-2);
-
+                var date = year + "-" + month + "-" + day;
+                var indx = $scope.tempParking.availability.date.indexOf(date)
+                var color = '#fff';
                 var cnt = 0;
-                for (var h = 1; h <= 24; h++) {
-                    var hr = ("0" + h).slice(-2) + ":00:00";
-                    var date = year + "-" + month + "-" + day + " " + hr;
-                    if ($scope.availability.date.indexOf(date) > -1){
-                        cnt += 1;
+
+                if (new Date(date) < (new Date()).setHours(0,0,0,0)) {
+                    return color;
+                }
+
+                if (indx > -1){
+                    for (i=0; i<$scope.tempParking.availability.hours[indx].length; ++i) {
+                        if ($scope.tempParking.availability.hours[indx][i].available) { cnt += 1; }
                     }
                 }
 
-                if (cnt < 1) { return '#eee'; }
-                else if (cnt > 0 && cnt < 24) { return '#ffe764'; }
-                else { return '#1abc9c'; }
+                if (cnt > 23) { color = '#1abc9c'; }
+                else if (cnt > 0 && cnt < 24) { color = '#ffe764'; }
+                return color;
             });
             $rootScope.showLoader = false;
         }).error(function (data, status, header, config) {
@@ -1153,6 +1183,12 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     }
 
     $scope.selectDay = function(indx, day){
+        $scope.currentDay = day;
+        var year = $scope.currentYear;
+        var month = ("0" + ($scope.currentMonth + 1)).slice(-2);
+        var day = ("0" + $scope.currentDay).slice(-2);
+        var date = year + "-" + month + "-" + day;
+        var indx = $scope.tempParking.availability.date.indexOf(date)
 
         $scope.bookingDate = {
             date: $scope.months[$scope.currentMonth] + " " + day + ", " + $scope.currentYear,
@@ -1160,33 +1196,20 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
             to: '00:00:00'
         }
 
-        var hrs = [
-            '01:00:00','02:00:00','03:00:00','04:00:00','05:00:00','06:00:00',
-            '07:00:00','08:00:00','09:00:00','10:00:00','11:00:00','12:00:00',
-            '13:00:00','14:00:00','15:00:00','16:00:00','17:00:00','18:00:00',
-            '19:00:00','20:00:00','21:00:00','22:00:00','23:00:00','24:00:00'
-        ];
+        $scope.frmHrs = ['00:00:00'];
+        $scope.toHrs = ['00:00:00'];
 
-        $scope.frmHrs = [];
-        $scope.toHrs = [];
-
-        for (var h = 0; h < 24; h++) {
-            var year = $scope.currentYear;
-            var month = ("0" + ($scope.currentMonth + 1)).slice(-2);
-            var day = ("0" + (day)).slice(-2);
-            var hr = hrs[h];
-            var date = year + "-" + month + "-" + day + " " + hr;
-            if ($scope.availability.date.indexOf(date) > -1){
-                $scope.frmHrs.push(hr);
-                $scope.toHrs.push(hr);
+        if (new Date(date) >= (new Date()).setHours(0,0,0,0)) {
+            if (indx > -1){
+                for (var hkey in $scope.tempParking.availability.hours[indx]) {
+                    var hr = $scope.tempParking.availability.hours[indx][hkey]
+                    if (hr.available == true && hr.booked == false) {
+                        $scope.frmHrs.push(hr.time + ":00:00");
+                        $scope.toHrs.push(hr.time + ":00:00");
+                    }
+                }
             }
         }
-
-        if ($scope.frmHrs.length < 1) {
-            $scope.frmHrs = ['00:00:00'];
-            $scope.toHrs = ['00:00:00'];
-        }
-
         $scope.bookingDate.from = $scope.frmHrs[0];
         $scope.bookingDate.to = $scope.toHrs[$scope.toHrs.length - 1];
     };
@@ -1232,10 +1255,6 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 alert($rootScope.errorHandler(status, data));
             });
         }
-    }
-
-    $scope.cancel = function() {
-        $scope.forms.selectDateTime = false;
     }
 
     $scope.showBookingDetails = function() {

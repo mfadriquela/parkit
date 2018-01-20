@@ -1,124 +1,141 @@
 <ion-view title="Book Parking" id="book_parking">
-  <ion-content padding="false" class="has-header app-background" ng-init="initialize()">
-    <ion-list>
-      <div class="item item-input" name="search">
-        <input type="search" placeholder="Search Location" ng-model="search.word">
-        <div class="icon ion-search" style="margin-right:10px;font-size:25px;" ng-click="searchLocation()"></div>
-      </div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
-    </ion-list>
-  </ion-content>
+    <ion-content padding="false" class="has-header white" ng-init="initialize()">
+        <ion-list>
+            <div class="item item-input" name="search">
+                <input type="search" placeholder="Search Location" style="color:#000" ng-model="search.word">
+                <div class="icon ion-search" style="margin-right:10px;font-size:25px;" ng-click="searchLocation()"></div>
+            </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="800" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </ion-list>
+    </ion-content>
 </ion-view>
-<div ng-show="forms.searchResult" class="app-search-result-form ng-hide">
-  <div class="app-search-result-form-content animated slideInUp">
-    <ion-list>
-      <ion-item class="item-divider item-icon-right">
-        Search Result
-        <i class="icon">
-          <span class="ion-close-circled app-delete-button" ng-click="closeSearchResult()"></span>
-        </i>
-      </ion-item>
-      <ion-item ng-repeat="parking in parkings track by $index" class="item-avatar item-icon-right" ng-click="viewParking(parking)">
-        <img src="img/car1.jpg">
-        <h2>{{parking.slot_no}}</h2>
-        <p>{{parking.title}}</p>
-        <i class="icon">
-          <span class="" style="font-size:14px;color:#2f5a78;">Php {{parking.rate}} / Hr</span>
-        </i>
-      </ion-item>
-    </ion-list>
-  </div>
-</div>
-<div ng-show="forms.parkingDetails" class="app-view-parking-form ng-hide">
-  <div class="app-view-parking-form-content animated slideInUp">
-    <div class="spacer" style="height: 20px;"></div>
-    <ion-item class="item-avatar item-icon-right app-item-no-border">
-      <img src="img/parking.png">
-      <h2>{{parking.slot_no}}</h2>
-      <p>{{parking.title}}</p>
-      <i class="icon">
-        <span class="" style="font-size:14px;color:#2f5a78;">Php {{parking.rate}} / Hr</span>
-      </i>
-    </ion-item>
-    <ion-list>
-      <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider" delegate-handle="slider" id="add-parking-space-slider" style="width:100%;height:200px;">
-        <ion-slide-page ng-repeat="image in parking.images" style="background:url({{image}}) no-repeat center;background-size:cover;"></ion-slide-page>
-      </ion-slides>
-    </ion-list>
-    <label class="item item-input app-item-border-top" name="title">
-      <span class="input-label app-input-label">Title:</span>
-      <span class="input-label app-input-sublabel" >{{parking.title}}</span>
-    </label>
-    <label class="item item-input app-item-border-bottom" name="location">
-      <span class="input-label app-input-label">Location:</span>
-      <span class="input-label app-input-sublabel" >{{parking.location}}</span>
-    </label>
-    <label class="item item-input app-item-border-bottom" style="margin-top:10px;height:150px;" name="description">
-      <textarea placeholder="" ng-readonly="true" ng-model="parking.description"></textarea>
-    </label>
-    <div class="button-bar app-form-bar">
-        <button class="button button-block app-button" ng-click="backToSearch()">
-            Back to Search
-        </button>
-        <button class="button button-block app-button" ng-click="checkAvailability(parking)">
-            Check Availability
-        </button>
+<div ng-show="forms.searchResult" class="app-search ng-hide">
+    <div class="app-search-content animated slideInUp">
+        <ion-list>
+            <ion-item class="item-divider item-icon-right">
+                Search Result
+                <i class="icon">
+                    <span class="ion-close-circled app-delete-button" ng-click="closeSearchResult()"></span>
+                </i>
+            </ion-item>
+            <ion-item ng-repeat="parking in parkings track by $index" class="item-avatar item-icon-right" ng-click="viewParking(parking)">
+                <img src="img/car1.jpg">
+                <h2>{{parking.slot_no}}</h2>
+                <p>{{parking.title}}</p>
+                <i class="icon">
+                    <span class="" style="font-size:14px;color:#2f5a78;">Php {{parking.rate}} / Hr</span>
+                </i>
+            </ion-item>
+        </ion-list>
     </div>
-  </div>
+</div>
+<div ng-show="forms.parkingDetails" class="app-search white ng-hide">
+    <div class="app-search-content animated slideInUp" style="height:95%;">
+        <div class="spacer" style="height: 20px;"></div>
+        <ion-item class="item-avatar item-icon-right app-item-white">
+            <img src="img/parking.png">
+            <h2>{{tempParking.slot_no}}</h2>
+            <p>{{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-delete-button" ng-click="backToSearch()"></span>
+            </i>
+        </ion-item>
+        <ion-list >
+            <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider" delegate-handle="slider" id="parking-space-slider" style="margin:15px;width:92%;height:200px;">
+                <ion-slide-page ng-repeat="image in tempParking.images" style="background:url({{image}}) no-repeat center;background-size:cover;"></ion-slide-page>
+            </ion-slides>
+        </ion-list>
+        <ion-item class="app-item white">
+            <h2>Title</h2>
+            <p>{{tempParking.title}}</p>
+        </ion-item>
+        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+        <ion-item class="app-item white">
+            <h2>Location</h2>
+            <p>{{tempParking.location}}</p>
+        </ion-item>
+        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+        <ion-item class="app-item white">
+            <h2>Rate</h2>
+            <p>{{tempParking.rate}}</p>
+        </ion-item>
+        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
+        <ion-item class="app-item white">
+            <h2>Description</h2>
+            <textarea placeholder="" style="margin-top:10px;height:100px;width:100%;color:#666666" ng-readonly="true" ng-model="tempParking.description"></textarea>
+        </ion-item>
+        <div class="button-bar app-button-bar">
+            <button class="button button-cyan button-block app-button" ng-click="checkAvailability(parking)">
+                Check Availability
+            </button>
+        </div>
+    </div>
 </div>
 <div ng-show="forms.selectDateTime" class="calendar ng-hide">
-  <div class="animated slideInUp">
-    <div class="month"> 
-      <ul>
-        <li class="prev" ng-click="prevMonth()">&#10094;</li>
-        <li class="next" ng-click="nextMonth()">&#10095;</li>
-        <li>
-          {{months[currentMonth]}}
-          <br>
-          <span style="font-size:18px">
-            {{currentYear}}
-          </span>
-        </li>
-      </ul>
+    <div class="calendar-content animated slideInUp" style="height:90%">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeAvailability()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator" style="margin:10px;"></div>
+        <div class="month">
+            <ul>
+                <li class="prev" ng-click="prevMonth()">&#10094;</li>
+                <li class="next" ng-click="nextMonth()">&#10095;</li>
+                <li>
+                    {{months[currentMonth]}}<br>
+                    <span style="font-size:18px">
+                        {{currentYear}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <ul class="days"> 
+            <div class="cyan">
+                <div style="padding:0px 10px">
+                    <li class="" ng-repeat="wd in weekDays track by $index">
+                        <div class="day" style="background-color:#1edfb3;">{{wd}}</div>
+                    </li>
+                </div>
+            </div>
+            <div class="white">
+                <div style="padding:0px 10px;">
+                    <li class="" ng-repeat="bd in blankDays track by $index">
+                        <div class="day">{{bd}}</div>
+                    </li>
+                    <li class="" ng-repeat="nd in numDays track by $index">
+                        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay($index, nd)">{{nd}}</div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+        <div style="margin:10px;">
+            <ion-item class="app-item cyan">
+                <h2>Date</h2>
+                <p>{{bookingDate.date}}</p>
+            </ion-item>
+            <label class="item item-select app-item-no-border" name="from_hr">
+                <span class="input-label app-input-label">From:</span>
+                <select ng-model="bookingDate.from">
+                  <option ng-repeat="hr in frmHrs track by $index" ng-click="selectFrom()" >{{hr}}</option>
+                </select>
+            </label>
+            <label class="item item-select app-item-border-bottom" name="to_hr">
+                <span class="input-label app-input-label">To:</span>
+                <select ng-model="bookingDate.to">
+                  <option ng-repeat="hr in toHrs track by $index">{{hr}}</option>
+                </select>
+            </label>
+            <div class="button-bar">
+                <button class="button button-cyan button-block" ng-click="book()">
+                    Book Now
+                </button>
+            </div>
+        </div>
     </div>
-    <ul class="days"> 
-      <li class="" ng-repeat="wd in weekDays track by $index">
-        <div class="day">{{wd}}</div>
-      </li>
-      <li class="" ng-repeat="bd in blankDays track by $index">
-        <div class="day">{{bd}}</div>
-      </li>
-      <li class="" ng-repeat="nd in numDays track by $index">
-        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay($index, nd)">{{nd}}</div>
-      </li>
-    </ul>
-    <ion-list>
-      <label class="item item-input app-item-border-top" name="date">
-        <span class="input-label app-input-label">Date:</span>
-        <span class="input-label app-input-sublabel">{{bookingDate.date}}</span>
-      </label>
-      <label class="item item-select app-item-no-border" name="from_hr">
-        <span class="input-label app-input-label">From:</span>
-        <select ng-model="bookingDate.from">
-          <option ng-repeat="hr in frmHrs track by $index" ng-click="selectFrom()" >{{hr}}</option>
-        </select>
-      </label>
-      <label class="item item-select app-item-border-bottom" name="to_hr">
-        <span class="input-label app-input-label">To:</span>
-        <select ng-model="bookingDate.to">
-          <option ng-repeat="hr in toHrs track by $index">{{hr}}</option>
-        </select>
-      </label>
-      <div class="button-bar app-form-bar">
-          <button class="button button-block app-button" ng-click="book()">
-              Book
-          </button>
-          <button class="button button-block app-button" ng-click="cancel()">
-              Cancel
-          </button>
-      </div>
-    </ion-list>
-  </div>
 </div>
 <div ng-show="forms.bookingDetails" class="app-booking-details-form ng-hide">
   <div class="app-booking-details-form-content animated slideInUp">
