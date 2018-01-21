@@ -815,6 +815,16 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.setDate();
     }
 
+    $scope.prevDay = function(){
+        var day = $scope.currentDay - 1;
+        $scope.selectDay(day)
+    }
+
+    $scope.nextDay = function(){
+        var day = $scope.currentDay + 1;
+        $scope.selectDay(day)
+    }
+
     $scope.closeCalendar = function(){
         $scope.forms.setAvailableDay = false;
     }
@@ -888,47 +898,49 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         var month = ("0" + ($scope.currentMonth + 1)).slice(-2);
         var day = ("0" + $scope.currentDay).slice(-2);
         var date = year + "-" + month + "-" + day;
-        var indx = $scope.tempParking.availability.date.indexOf(date)
 
-        if (new Date(date) >= (new Date()).setHours(0,0,0,0)) {
+        $scope.tempAvailability = {
+            id: $scope.generateId(),
+            date: date,
+            hours: [
+                {time: '01', available: false, booked: false},
+                {time: '02', available: false, booked: false},
+                {time: '03', available: false, booked: false},
+                {time: '04', available: false, booked: false},
+                {time: '05', available: false, booked: false},
+                {time: '06', available: false, booked: false},
+                {time: '07', available: false, booked: false},
+                {time: '08', available: false, booked: false},
+                {time: '09', available: false, booked: false},
+                {time: '10', available: false, booked: false},
+                {time: '11', available: false, booked: false},
+                {time: '12', available: false, booked: false},
+                {time: '13', available: false, booked: false},
+                {time: '14', available: false, booked: false},
+                {time: '15', available: false, booked: false},
+                {time: '16', available: false, booked: false},
+                {time: '17', available: false, booked: false},
+                {time: '18', available: false, booked: false},
+                {time: '19', available: false, booked: false},
+                {time: '20', available: false, booked: false},
+                {time: '21', available: false, booked: false},
+                {time: '22', available: false, booked: false},
+                {time: '23', available: false, booked: false},
+                {time: '24', available: false, booked: false}
+            ],
+            parking_id: $scope.tempParking.id
+        };
+
+        if (new Date(date) < (new Date()).setHours(0,0,0,0)) {
+            alert("Not allowed!");
+        } else {
+            var indx = $scope.tempParking.availability.date.indexOf(date)
 
             if (indx > -1){
                 $scope.tempAvailability = {
                     id: $scope.tempParking.availability.id[indx],
                     date: $scope.tempParking.availability.date[indx],
                     hours: $scope.tempParking.availability.hours[indx],
-                    parking_id: $scope.tempParking.id
-                };
-            } else {
-                $scope.tempAvailability = {
-                    id: $scope.generateId(),
-                    date: date,
-                    hours: [
-                        {time: '01', available: false, booked: false},
-                        {time: '02', available: false, booked: false},
-                        {time: '03', available: false, booked: false},
-                        {time: '04', available: false, booked: false},
-                        {time: '05', available: false, booked: false},
-                        {time: '06', available: false, booked: false},
-                        {time: '07', available: false, booked: false},
-                        {time: '08', available: false, booked: false},
-                        {time: '09', available: false, booked: false},
-                        {time: '10', available: false, booked: false},
-                        {time: '11', available: false, booked: false},
-                        {time: '12', available: false, booked: false},
-                        {time: '13', available: false, booked: false},
-                        {time: '14', available: false, booked: false},
-                        {time: '15', available: false, booked: false},
-                        {time: '16', available: false, booked: false},
-                        {time: '17', available: false, booked: false},
-                        {time: '18', available: false, booked: false},
-                        {time: '19', available: false, booked: false},
-                        {time: '20', available: false, booked: false},
-                        {time: '21', available: false, booked: false},
-                        {time: '22', available: false, booked: false},
-                        {time: '23', available: false, booked: false},
-                        {time: '24', available: false, booked: false}
-                    ],
                     parking_id: $scope.tempParking.id
                 };
             }

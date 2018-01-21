@@ -188,16 +188,26 @@
     </div>
 </div>
 <div ng-show="forms.setAvailableTime" class="time ng-hide">
-    <div class="time-content animated slideInUp">
+    <div class="time-content animated slideInUp" style="height:85%;">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="cancelAvailability()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator"></div>
         <div class="time-header">
-            <ion-item class="item-icon-right app-item black">
-                <div class="app-large-font app-cyan-font">{{months[currentMonth]}} {{currentDay}}, {{currentYear}}</div>
-                <p> Select available time</p>
-                <i class="icon">
-                    <p style="margin-right:5px;">Select all</p>
-                    <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllTime()" ng-model="availableTime.checkAll"></input>
-                </i>    
-            </ion-item>
+            <ul>
+                <li class="prev" ng-click="prevDay()">&#10094;</li>
+                <li class="next" ng-click="nextDay()">&#10095;</li>
+                <li>
+                    <ion-item class="item-icon-right app-item black">
+                        <div class="app-large-font app-cyan-font">{{months[currentMonth]}} {{currentDay}}, {{currentYear}}</div>
+                        <p> Select available time</p>
+                    </ion-item>
+                </li>
+            </ul>
         </div>
         <div class="time-body">
             <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
@@ -251,10 +261,6 @@
         <div class="button-bar">
             <button class="button button-cyan button-block" ng-click="saveAvailability()">
                 Save
-            </button>
-            <div class="separator" style="width:2px;"></div>
-            <button class="button button-cyan button-block" ng-click="cancelAvailability()">
-                Cancel
             </button>
         </div>
     </div>
