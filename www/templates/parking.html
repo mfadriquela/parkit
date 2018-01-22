@@ -213,48 +213,22 @@
             <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
                 <p style="text-align:left;">AM</p>
                 <i class="icon">
-                    <p style="margin-right:5px;">Select all AM</p>
-                    <input type="checkbox" style="margin-right:0px;height:20px;width:20px;" ng-click="toggleAllAm()" ng-model="availableTime.checkAllAm"></input>
+                    <p ng-click="toggleAllAm()">Toggle All AM</p>
                 </i>
             </ion-item>
             <div class="time-num">
-                <a class="{{tempAvailability.hours[0].available ? (tempAvailability.hours[0].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(0)">{{tempAvailability.hours[0].time}}</a>
-                <a class="{{tempAvailability.hours[1].available ? (tempAvailability.hours[1].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(1)">{{tempAvailability.hours[1].time}}</a>
-                <a class="{{tempAvailability.hours[2].available ? (tempAvailability.hours[2].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(2)">{{tempAvailability.hours[2].time}}</a>
-                <a class="{{tempAvailability.hours[3].available ? (tempAvailability.hours[3].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(3)">{{tempAvailability.hours[3].time}}</a>
-                <a class="{{tempAvailability.hours[4].available ? (tempAvailability.hours[4].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(4)">{{tempAvailability.hours[4].time}}</a>
-                <a class="{{tempAvailability.hours[5].available ? (tempAvailability.hours[5].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(5)">{{tempAvailability.hours[5].time}}</a>
-            </div>
-            <div class="time-num">
-                <a class="{{tempAvailability.hours[6].available ? (tempAvailability.hours[6].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(6)">{{tempAvailability.hours[6].time}}</a>
-                <a class="{{tempAvailability.hours[7].available ? (tempAvailability.hours[7].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(7)">{{tempAvailability.hours[7].time}}</a>
-                <a class="{{tempAvailability.hours[8].available ? (tempAvailability.hours[8].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(8)">{{tempAvailability.hours[8].time}}</a>
-                <a class="{{tempAvailability.hours[9].available ? (tempAvailability.hours[9].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(9)">{{tempAvailability.hours[9].time}}</a>
-                <a class="{{tempAvailability.hours[10].available ? (tempAvailability.hours[10].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(10)">{{tempAvailability.hours[10].time}}</a>
-                <a class="{{tempAvailability.hours[11].available ? (tempAvailability.hours[11].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(11)">{{tempAvailability.hours[11].time}}</a>
+                <a ng-repeat="hr in hours track by $index" class="
+                    {{tempAvailability.hours[$index].available ? (tempAvailability.hours[$index].booked ? 'inactive' : 'active') : ''}}" ng-click="selectTime($index)">{{hr}}</a>
             </div>
             <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
                 <p style="text-align:left;">PM</p>
                 <i class="icon">
-                    <p style="margin-right:5px;">Select all PM</p>
-                    <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllPm()" ng-model="availableTime.checkAllPm"></input>
+                    <p ng-click="toggleAllPm()">Toggle All PM</p>
                 </i>
             </ion-item>
             <div class="time-num">
-                <a class="{{tempAvailability.hours[12].available ? (tempAvailability.hours[12].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(12)">{{tempAvailability.hours[12].time}}</a>
-                <a class="{{tempAvailability.hours[13].available ? (tempAvailability.hours[13].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(13)">{{tempAvailability.hours[13].time}}</a>
-                <a class="{{tempAvailability.hours[14].available ? (tempAvailability.hours[14].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(14)">{{tempAvailability.hours[14].time}}</a>
-                <a class="{{tempAvailability.hours[15].available ? (tempAvailability.hours[15].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(15)">{{tempAvailability.hours[15].time}}</a>
-                <a class="{{tempAvailability.hours[16].available ? (tempAvailability.hours[16].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(16)">{{tempAvailability.hours[16].time}}</a>
-                <a class="{{tempAvailability.hours[17].available ? (tempAvailability.hours[17].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(17)">{{tempAvailability.hours[17].time}}</a>
-            </div>
-            <div class="time-num">
-                <a class="{{tempAvailability.hours[18].available ? (tempAvailability.hours[18].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(18)">{{tempAvailability.hours[18].time}}</a>
-                <a class="{{tempAvailability.hours[19].available ? (tempAvailability.hours[19].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(19)">{{tempAvailability.hours[19].time}}</a>
-                <a class="{{tempAvailability.hours[20].available ? (tempAvailability.hours[20].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(20)">{{tempAvailability.hours[20].time}}</a>
-                <a class="{{tempAvailability.hours[21].available ? (tempAvailability.hours[21].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(21)">{{tempAvailability.hours[21].time}}</a>
-                <a class="{{tempAvailability.hours[22].available ? (tempAvailability.hours[22].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(22)">{{tempAvailability.hours[22].time}}</a>
-                <a class="{{tempAvailability.hours[23].available ? (tempAvailability.hours[23].booked ? 'disabled' : 'active') : ''}}" ng-click="selectTime(23)">{{tempAvailability.hours[23].time}}</a>
+                <a ng-repeat="hr in hours track by $index" class="
+                    {{tempAvailability.hours[$index+12].available ? (tempAvailability.hours[$index+12].booked ? 'inactive' : 'active') : ''}}" ng-click="selectTime($index+12)">{{hr}}</a>
             </div>
         </div>
         <div class="spacer" style="height:10px;"></div>
