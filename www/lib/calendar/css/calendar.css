@@ -47,12 +47,16 @@ body {font-family: Verdana, sans-serif;}
 .month .prev {
     float: left;
     padding-top: 10px;
+    color: #1edfb3;
+    font-size: 32px;
 }
 
 /* Next button */
 .month .next {
     float: right;
     padding-top: 10px;
+    color: #1edfb3;
+    font-size: 32px;
 }
 
 /* Weekdays (Mon-Sun) */
@@ -183,13 +187,8 @@ body {font-family: Verdana, sans-serif;}
     background-color: #1edfb3;
 }
 
-.time-num a.disabled {
-    color: #999;
-    background-color: #999;
-}
-
 .time-num a.inactive {
-    color: #bbb;
+    color: #cfcfcf;
 }
 
 

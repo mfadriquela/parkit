@@ -59,16 +59,16 @@ angular.module('app.routes', [])
         }
     })
 
-    .state('booking', {
-        url: '/booking',
-        templateUrl: 'templates/booking.html',
-        controller: 'bookingCtrl'
-    })
-
     .state('bookParking', {
         url: '/bookparking',
         templateUrl: 'templates/bookParking.html',
         controller: 'bookParkingCtrl'
+    })
+
+    .state('booking', {
+        url: '/booking',
+        templateUrl: 'templates/booking.html',
+        controller: 'bookingCtrl'
     })
 
     $urlRouterProvider.otherwise('/login')

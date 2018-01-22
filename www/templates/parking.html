@@ -218,7 +218,7 @@
             </ion-item>
             <div class="time-num">
                 <a ng-repeat="hr in hours track by $index" class="
-                    {{tempAvailability.hours[$index].available ? (tempAvailability.hours[$index].booked ? 'inactive' : 'active') : ''}}" ng-click="selectTime($index)">{{hr}}</a>
+                    {{tempAvailability.hours[$index].available ? 'active' : (tempAvailability.hours[$index].booked ? 'inactive' : '')}}" ng-click="selectTime($index)">{{hr}}</a>
             </div>
             <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
                 <p style="text-align:left;">PM</p>
@@ -228,7 +228,7 @@
             </ion-item>
             <div class="time-num">
                 <a ng-repeat="hr in hours track by $index" class="
-                    {{tempAvailability.hours[$index+12].available ? (tempAvailability.hours[$index+12].booked ? 'inactive' : 'active') : ''}}" ng-click="selectTime($index+12)">{{hr}}</a>
+                    {{tempAvailability.hours[$index+12].available ? 'active' : (tempAvailability.hours[$index+12].booked ? 'inactive' : '')}}" ng-click="selectTime($index+12)">{{hr}}</a>
             </div>
         </div>
         <div class="spacer" style="height:10px;"></div>
