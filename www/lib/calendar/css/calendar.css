@@ -162,6 +162,7 @@ body {font-family: Verdana, sans-serif;}
 
 .time-num a {
     float: left;
+    margin-top: -1px;
     margin-left: -1px;
     padding: 12px 14px;
     background-color: #fff;
@@ -179,5 +180,11 @@ body {font-family: Verdana, sans-serif;}
 }
 
 .time-num a.disabled {
+    color: #999;
     background-color: #999;
+}
+
+.time-num a.inactive {
+    color: #fff;
+    background-color: #fff;
 }

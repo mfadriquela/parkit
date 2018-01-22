@@ -71,6 +71,123 @@
         </div>
     </div>
 </div>
+<div ng-show="forms.selectAvailableDay" class="calendar ng-hide">
+    <div class="calendar-content animated slideInUp">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeAvailability()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator" style="margin:10px;"></div>
+        <div class="month">
+            <ul>
+                <li class="prev" ng-click="prevMonth()">&#10094;</li>
+                <li class="next" ng-click="nextMonth()">&#10095;</li>
+                <li>
+                    {{months[currentMonth]}}<br>
+                    <span style="font-size:18px;color:#606060;">
+                        {{currentYear}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <ul class="days"> 
+            <div class="cyan">
+                <div style="padding:0px 10px">
+                    <li class="" ng-repeat="wd in weekDays track by $index">
+                        <div class="day" style="background-color:#1edfb3;">{{wd}}</div>
+                    </li>
+                </div>
+            </div>
+            <div class="white">
+                <div style="padding:0px 10px;">
+                    <li class="" ng-repeat="bd in blankDays track by $index">
+                        <div class="day">{{bd}}</div>
+                    </li>
+                    <li class="" ng-repeat="nd in numDays track by $index">
+                        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay(nd)">{{nd}}</div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<div ng-show="forms.selectAvailableTime" class="time ng-hide">
+    <div class="time-content animated slideInUp" style="height:85%;">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeSelectAvailableTime()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator"></div>
+        <div class="time-header">
+            <ul>
+                <li class="prev" ng-click="prevDay()">&#10094;</li>
+                <li class="next" ng-click="nextDay()">&#10095;</li>
+                <li>
+                    <ion-item class="item-icon-right app-item black">
+                        <div class="app-large-font app-cyan-font">{{months[currentMonth]}} {{currentDay}}, {{currentYear}}</div>
+                        <p> Select available time</p>
+                    </ion-item>
+                </li>
+            </ul>
+        </div>
+        <div class="time-body">
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">AM</p>
+                <i class="icon">
+                    <p style="margin-right:5px;">Select all AM</p>
+                    <input type="checkbox" style="margin-right:0px;height:20px;width:20px;" ng-click="toggleAllAm()" ng-model="availableTime.checkAllAm"></input>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[0].available ? (tempAvailability.hours[0].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(0)">{{tempAvailability.hours[0].time}}</a>
+                <a class="{{tempAvailability.hours[1].available ? (tempAvailability.hours[1].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(1)">{{tempAvailability.hours[1].time}}</a>
+                <a class="{{tempAvailability.hours[2].available ? (tempAvailability.hours[2].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(2)">{{tempAvailability.hours[2].time}}</a>
+                <a class="{{tempAvailability.hours[3].available ? (tempAvailability.hours[3].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(3)">{{tempAvailability.hours[3].time}}</a>
+                <a class="{{tempAvailability.hours[4].available ? (tempAvailability.hours[4].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(4)">{{tempAvailability.hours[4].time}}</a>
+                <a class="{{tempAvailability.hours[5].available ? (tempAvailability.hours[5].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(5)">{{tempAvailability.hours[5].time}}</a>
+                <a class="{{tempAvailability.hours[6].available ? (tempAvailability.hours[6].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(6)">{{tempAvailability.hours[6].time}}</a>
+                <a class="{{tempAvailability.hours[7].available ? (tempAvailability.hours[7].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(7)">{{tempAvailability.hours[7].time}}</a>
+                <a class="{{tempAvailability.hours[8].available ? (tempAvailability.hours[8].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(8)">{{tempAvailability.hours[8].time}}</a>
+                <a class="{{tempAvailability.hours[9].available ? (tempAvailability.hours[9].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(9)">{{tempAvailability.hours[9].time}}</a>
+                <a class="{{tempAvailability.hours[10].available ? (tempAvailability.hours[10].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(10)">{{tempAvailability.hours[10].time}}</a>
+                <a class="{{tempAvailability.hours[11].available ? (tempAvailability.hours[11].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(11)">{{tempAvailability.hours[11].time}}</a>
+            </div>
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">PM</p>
+                <i class="icon">
+                    <p style="margin-right:5px;">Select all PM</p>
+                    <input type="checkbox" style="height:20px;width:20px;" ng-click="toggleAllPm()" ng-model="availableTime.checkAllPm"></input>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a class="{{tempAvailability.hours[12].available ? (tempAvailability.hours[12].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(12)">{{tempAvailability.hours[12].time}}</a>
+                <a class="{{tempAvailability.hours[13].available ? (tempAvailability.hours[13].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(13)">{{tempAvailability.hours[13].time}}</a>
+                <a class="{{tempAvailability.hours[14].available ? (tempAvailability.hours[14].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(14)">{{tempAvailability.hours[14].time}}</a>
+                <a class="{{tempAvailability.hours[15].available ? (tempAvailability.hours[15].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(15)">{{tempAvailability.hours[15].time}}</a>
+                <a class="{{tempAvailability.hours[16].available ? (tempAvailability.hours[16].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(16)">{{tempAvailability.hours[16].time}}</a>
+                <a class="{{tempAvailability.hours[17].available ? (tempAvailability.hours[17].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(17)">{{tempAvailability.hours[17].time}}</a>
+                <a class="{{tempAvailability.hours[18].available ? (tempAvailability.hours[18].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(18)">{{tempAvailability.hours[18].time}}</a>
+                <a class="{{tempAvailability.hours[19].available ? (tempAvailability.hours[19].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(19)">{{tempAvailability.hours[19].time}}</a>
+                <a class="{{tempAvailability.hours[20].available ? (tempAvailability.hours[20].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(20)">{{tempAvailability.hours[20].time}}</a>
+                <a class="{{tempAvailability.hours[21].available ? (tempAvailability.hours[21].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(21)">{{tempAvailability.hours[21].time}}</a>
+                <a class="{{tempAvailability.hours[22].available ? (tempAvailability.hours[22].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(22)">{{tempAvailability.hours[22].time}}</a>
+                <a class="{{tempAvailability.hours[23].available ? (tempAvailability.hours[23].booked ? 'disabled' : '') : 'disabled'}}" ng-click="selectTime(23)">{{tempAvailability.hours[23].time}}</a>
+            </div>
+        </div>
+        <div class="spacer" style="height:10px;"></div>
+        <div class="button-bar">
+            <button class="button button-cyan button-block" ng-click="saveAvailability()">
+                Save
+            </button>
+        </div>
+    </div>
+</div>
 <div ng-show="forms.selectDateTime" class="calendar ng-hide">
     <div class="calendar-content animated slideInUp" style="height:90%">
         <ion-item class="item-icon-right app-item app-item-header">
