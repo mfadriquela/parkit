@@ -57,7 +57,7 @@
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
             <h2>Rate</h2>
-            <p>{{tempParking.rate}}</p>
+            <p>Php {{tempParking.rate}} / Hr</p>
         </ion-item>
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
@@ -67,6 +67,101 @@
         <div class="button-bar app-button-bar">
             <button class="button button-cyan button-block app-button" ng-click="checkAvailability(parking)">
                 Check Availability
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-show="forms.selectAvailableDay" class="calendar ng-hide">
+    <div class="calendar-content animated slideInUp">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeAvailability()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator" style="margin:10px;"></div>
+        <div class="month">
+            <ul>
+                <li class="prev" ng-click="prevMonth()">&#10094;</li>
+                <li class="next" ng-click="nextMonth()">&#10095;</li>
+                <li>
+                    {{months[currentMonth]}}<br>
+                    <span style="font-size:18px;color:#606060;">
+                        {{currentYear}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <ul class="days"> 
+            <div class="cyan">
+                <div style="padding:0px 10px">
+                    <li class="" ng-repeat="wd in weekDays track by $index">
+                        <div class="day" style="background-color:#1edfb3;">{{wd}}</div>
+                    </li>
+                </div>
+            </div>
+            <div class="white">
+                <div style="padding:0px 10px;">
+                    <li class="" ng-repeat="bd in blankDays track by $index">
+                        <div class="day">{{bd}}</div>
+                    </li>
+                    <li class="" ng-repeat="nd in numDays track by $index">
+                        <div class="day" style="background:{{availDays[$index]}};" ng-click="selectDay(nd)">{{nd}}</div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<div ng-show="forms.selectAvailableTime" class="time ng-hide">
+    <div class="time-content animated slideInUp" style="height:85%;">
+        <ion-item class="item-icon-right app-item app-item-header">
+            <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
+            <p> {{tempParking.title}}</p>
+            <i class="icon">
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeSelectAvailableTime()"></span>
+            </i>
+        </ion-item>
+        <div class="app-item-separator"></div>
+        <div class="time-header">
+            <ul>
+                <li class="prev" ng-click="prevDay()">&#10094;</li>
+                <li class="next" ng-click="nextDay()">&#10095;</li>
+                <li>
+                    <ion-item class="item-icon-right app-item black">
+                        <div class="app-large-font app-cyan-font">{{months[currentMonth]}} {{currentDay}}, {{currentYear}}</div>
+                        <p> Select available time</p>
+                    </ion-item>
+                </li>
+            </ul>
+        </div>
+        <div class="time-body">
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">AM</p>
+                <i class="icon">
+                    <p ng-click="toggleAllAm()">Toggle All AM</p>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a ng-repeat="hr in hours track by $index" class="
+                    {{tempAvailability.hours[$index].available ? (tempAvailability.hours[$index].booked ? 'active' : '') : 'inactive'}}" ng-click="selectTime($index)">{{hr}}</a>
+            </div>
+            <ion-item class="item-icon-right app-item white" style="margin-bottom:5px;padding:5px;">
+                <p style="text-align:left;">PM</p>
+                <i class="icon">
+                    <p ng-click="toggleAllPm()">Toggle All PM</p>
+                </i>
+            </ion-item>
+            <div class="time-num">
+                <a ng-repeat="hr in hours track by $index" class="
+                    {{tempAvailability.hours[$index+12].available ? (tempAvailability.hours[$index+12].booked ? 'active' : '') : 'inactive'}}" ng-click="selectTime($index+12)">{{hr}}</a>
+            </div>
+        </div>
+        <div class="spacer" style="height:10px;"></div>
+        <div class="button-bar">
+            <button class="button button-cyan button-block" ng-click="book()">
+                Book
             </button>
         </div>
     </div>
