@@ -26,6 +26,12 @@ function ($window, $state, $scope, $rootScope, $stateParams) {
     $scope.myProfile = function() {
         $state.go("tabsController.account");
     };
+
+    $scope.enterPromoCode = function() {
+    };
+
+    $scope.viewHelp = function() {
+    };
 }])
 
 .controller('loginCtrl', ['$window', '$state', '$scope', '$rootScope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -1024,8 +1030,6 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
             parkingDetails: false,
             selectAvailableDay: false,
             selectAvailableTime: false,
-            selectDateTime: false,
-            bookingDetails: false
         }
 
         $scope.parkings = [];
@@ -1087,7 +1091,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     }
 
     $scope.closeSearchResult = function() {
-        $scope.forms.searchResult = false;
+        $scope.initialize();
     }
 
     $scope.viewParking = function(parking) {
@@ -1096,22 +1100,24 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.forms.parkingDetails = true;
     }
 
-    $scope.backToSearch = function(){
+    $scope.closeViewParking = function(){
         $scope.hideAllForms();
         $scope.forms.searchResult = true;
     }
 
-    $scope.checkAvailability = function(parking){
+    $scope.checkAvailability = function(){
         var auth = JSON.parse($window.sessionStorage.auth);
         $scope.userId = auth.id;
         $scope.months = ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'];
         $scope.currentDate = new Date();
         $scope.setDate();
+        $scope.hideAllForms();
         $scope.forms.selectAvailableDay = true;
     }
 
-    $scope.closeAvailability = function(parking){
-        $scope.forms.selectAvailableDay = false;
+    $scope.closeCheckAvailability = function(){
+        $scope.hideAllForms();
+        $scope.forms.parkingDetails = true;
     }
 
     $scope.prevMonth = function(){
@@ -1269,6 +1275,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 checkAllAm: false,
                 checkAllPm: false
             }
+            $scope.hideAllForms();
             $scope.forms.selectAvailableTime = true;
         }
     };
@@ -1297,7 +1304,8 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     };
 
     $scope.closeSelectAvailableTime = function(){
-        $scope.forms.selectAvailableTime = false;
+        $scope.hideAllForms();
+        $scope.forms.selectAvailableDay = true;
     };
 
     $scope.validateHours = function(hrs){
@@ -1365,7 +1373,9 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 };
                 $http.put(url, data).success(function (data, status, headers, config) {
                     $rootScope.showLoader = false;
-                    alert("Successfully booked!")
+                    if (confirm('Successfully booked! Do you want check your booking details now?')) {
+                        $state.go("booking");
+                    }
                 }).error(function (data, status, header, config) {
                     $rootScope.showLoader = false;
                     alert($scope.errorHandler(status, data));
@@ -1375,106 +1385,6 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 alert($rootScope.errorHandler(status, data));
             });
         }
-    }
-
-    $scope.showBookingDetails = function() {
-        var auth = JSON.parse($window.sessionStorage.auth);
-        var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.bookingId + ".json?&auth=" + auth.token;
-        console.log(url);
-        $rootScope.showLoader = true;
-        $http.get(url).success(function (data, status, headers, config) {
-            if (data) {
-                $scope.tempBooking = {
-                    id: $scope.bookingId,
-                    from_date: data.from_date,
-                    to_date: data.to_date,
-                    status: data.status,
-                    rate: data.rate,
-                    user_id: data.user_id,
-                    parking_id: data.parking_id,
-                    parking_slot_no: data.parking_slot_no,
-                    parking_title: data.parking_title,
-                    parking_location: data.parking_location
-                };
-            }
-            $rootScope.showLoader = false;
-        }).error(function (data, status, header, config) {
-            $rootScope.showLoader = false;
-            alert($rootScope.errorHandler(status, data));
-        });
-    }
-
-    $scope.confirmBooking = function(){
-        var auth = JSON.parse($window.sessionStorage.auth);
-        var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
-        var data = {
-            from_date: $scope.tempBooking.from_date,
-            to_date: $scope.tempBooking.to_date,
-            rate: $scope.tempBooking.rate,
-            user_id: $scope.tempBooking.user_id,
-            parking_id: $scope.tempBooking.parking_id,
-            parking_slot_no: $scope.tempBooking.parking_slot_no,
-            parking_title: $scope.tempBooking.parking_title,
-            parking_location: $scope.tempBooking.parking_location,
-            status: 'Arrived',
-        };
-        $rootScope.showLoader = true;
-        $http.put(url, data).success(function (data, status, headers, config) {
-            $scope.showBookingDetails();
-        }).error(function (data, status, header, config) {
-            $rootScope.showLoader = false;
-            alert($rootScope.errorHandler(status, data));
-        });
-    };
-
-    $scope.clearBooking = function(){
-        var auth = JSON.parse($window.sessionStorage.auth);
-        var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
-        var data = {
-            from_date: $scope.tempBooking.from_date,
-            to_date: $scope.tempBooking.to_date,
-            rate: $scope.tempBooking.rate,
-            user_id: $scope.tempBooking.user_id,
-            parking_id: $scope.tempBooking.parking_id,
-            parking_slot_no: $scope.tempBooking.parking_slot_no,
-            parking_title: $scope.tempBooking.parking_title,
-            parking_location: $scope.tempBooking.parking_location,
-            status: 'Cleared',
-        };
-        $rootScope.showLoader = true;
-        $http.put(url, data).success(function (data, status, headers, config) {
-            $scope.showBookingDetails();
-        }).error(function (data, status, header, config) {
-            $rootScope.showLoader = false;
-            alert($rootScope.errorHandler(status, data));
-        });
-    };
-
-    $scope.cancelBooking = function(){
-        var auth = JSON.parse($window.sessionStorage.auth);
-        var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
-        var data = {
-            from_date: $scope.tempBooking.from_date,
-            to_date: $scope.tempBooking.to_date,
-            rate: $scope.tempBooking.rate,
-            user_id: $scope.tempBooking.user_id,
-            parking_id: $scope.tempBooking.parking_id,
-            parking_slot_no: $scope.tempBooking.parking_slot_no,
-            parking_title: $scope.tempBooking.parking_title,
-            parking_location: $scope.tempBooking.parking_location,
-            status: 'Cancelled',
-        };
-        $rootScope.showLoader = true;
-        $http.put(url, data).success(function (data, status, headers, config) {
-            $scope.showBookingDetails();
-        }).error(function (data, status, header, config) {
-            $rootScope.showLoader = false;
-            alert($rootScope.errorHandler(status, data));
-        });
-    };
-
-    $scope.closeBookingDetail = function(booking) {
-        $scope.initialize();
     }
 }])
 
@@ -1563,24 +1473,35 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
         $scope.forms.navigateToParking = true;
     };
 
+    $scope.closeNavigateToParking = function(){
+        $scope.hideAllForms();
+        $scope.forms.showBookingDetail = true;
+    };
+
     $scope.confirmBooking = function(){
+        $scope.tempBooking.status = 'Arrived';
+
         var auth = JSON.parse($window.sessionStorage.auth);
         var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
         var data = {
-            from_date: $scope.tempBooking.from_date,
-            to_date: $scope.tempBooking.to_date,
-            rate: $scope.tempBooking.rate,
-            user_id: $scope.tempBooking.user_id,
+            booking_no: $scope.tempBooking.booking_no,
+            date: $scope.tempBooking.date,
             parking_id: $scope.tempBooking.parking_id,
             parking_slot_no: $scope.tempBooking.parking_slot_no,
             parking_title: $scope.tempBooking.parking_title,
             parking_location: $scope.tempBooking.parking_location,
-            status: 'Arrived',
+            parking_date: $scope.tempBooking.parking_date,
+            parking_hours: $scope.tempBooking.parking_hours,
+            rate: $scope.tempBooking.rate,
+            status: $scope.tempBooking.status,
+            user_id: $scope.tempBooking.user_id,
+            availability_id: $scope.tempBooking.availability_id,
         };
         $rootScope.showLoader = true;
         $http.put(url, data).success(function (data, status, headers, config) {
-            $scope.showBookingDetail = false;
-            $scope.initialize();
+            $rootScope.showLoader = false;
+            $scope.hideAllForms();
+            $scope.forms.showBookingDetail = true;
         }).error(function (data, status, header, config) {
             $rootScope.showLoader = false;
             alert($rootScope.errorHandler(status, data));
@@ -1588,23 +1509,27 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     };
 
     $scope.clearBooking = function(){
+        $scope.tempBooking.status = 'Cleared';
+
         var auth = JSON.parse($window.sessionStorage.auth);
         var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
         var data = {
-            from_date: $scope.tempBooking.from_date,
-            to_date: $scope.tempBooking.to_date,
-            rate: $scope.tempBooking.rate,
-            user_id: $scope.tempBooking.user_id,
+            booking_no: $scope.tempBooking.booking_no,
+            date: $scope.tempBooking.date,
             parking_id: $scope.tempBooking.parking_id,
             parking_slot_no: $scope.tempBooking.parking_slot_no,
             parking_title: $scope.tempBooking.parking_title,
             parking_location: $scope.tempBooking.parking_location,
-            status: 'Cleared',
+            parking_date: $scope.tempBooking.parking_date,
+            parking_hours: $scope.tempBooking.parking_hours,
+            rate: $scope.tempBooking.rate,
+            status: $scope.tempBooking.status,
+            user_id: $scope.tempBooking.user_id,
+            availability_id: $scope.tempBooking.availability_id,
         };
         $rootScope.showLoader = true;
         $http.put(url, data).success(function (data, status, headers, config) {
-            $scope.showBookingDetail = false;
-            $scope.initialize();
+            $rootScope.showLoader = false;
         }).error(function (data, status, header, config) {
             $rootScope.showLoader = false;
             alert($rootScope.errorHandler(status, data));
@@ -1613,6 +1538,8 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
 
     $scope.cancelBooking = function(){
         if (confirm('Are you sure you want to cancel the booking?')) {
+            $scope.tempBooking.status = 'Cancelled';
+
             var auth = JSON.parse($window.sessionStorage.auth);
             var url = "https://parkit-10834.firebaseio.com/booking/" + $scope.tempBooking.id + ".json" + "?auth=" + auth.token;
             var data = {
@@ -1625,7 +1552,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
                 parking_date: $scope.tempBooking.parking_date,
                 parking_hours: $scope.tempBooking.parking_hours,
                 rate: $scope.tempBooking.rate,
-                status: 'Cancelled',
+                status: $scope.tempBooking.status,
                 user_id: $scope.tempBooking.user_id,
                 availability_id: $scope.tempBooking.availability_id,
             };

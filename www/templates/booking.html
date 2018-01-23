@@ -1,19 +1,40 @@
 <ion-view title="Booking" id="booking">
     <ion-content padding="" class="has-header black" ng-init="initialize()">
+        <div class="animated slideInDown">
+            <div class="app-item-banner">
+                <div>
+                    <img class="app-item-banner-image" src="img/parking.png">
+                </div>
+                <h4 class="app-item-banner-subheading">This is where your reservations will appear. You'll have the option to view the details of your reservation.</h4>
+            </div>
+        </div>
         <div class="animated slideInUp">
             <ion-item class="item-icon-right app-item cyan" style="padding-top:20px;padding-bottom:20px;">
                 <h2>Bookings</h2>
-                <p>This is where your reservations will appear. <br> You'll have the option to view the details of your reservation.</p>
+                <p>Tap the + button to booke a parking space</p>
+                <i class="icon">
+                    <span class="ion-android-add" style="color:#000;" ng-click="bookParking()"></span>
+                </i>
             </ion-item>
         </div>
         <ion-list ng-repeat="booking in bookings track by $index">
-            <div class="animated slideInUp" style="">
-                <ion-item class="item item-icon-right app-item-border-top" ng-click="viewBookingDetail(booking)">
-                    <h2>{{booking.booking_no}}</h2>
-                    <p style="font-size:12px;color:#2f5a78;">{{booking.date}}</p>
+            <div class="animated slideInUp" style="margin-bottom:20px;padding-top:20px;padding-bottom:20px;background-color:#fff">
+                <ion-item class="item-icon-right app-item white">
+                    <h2>Booking No</h2>
+                    <p>{{booking.booking_no}}</p>
                     <i class="icon">
-                      <span class="" style="font-size:16px;color:red;">{{booking.status}}</span>
+                        <span class="ion-compose" style="color:#000;" ng-click="viewBookingDetail(booking)"></span>
                     </i>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:70px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Booking Date</h2>
+                    <p>{{booking.date}}</p>
+                </ion-item>
+                <div class="app-item-separator black" style="margin-left:15px;margin-right:70px;"></div>
+                <ion-item class="app-item white">
+                    <h2>Booking Status</h2>
+                    <p>{{booking.status}}</p>
                 </ion-item>
             </div>
         </ion-list>
@@ -22,36 +43,56 @@
 <div ng-show="forms.showBookingDetail" class="app-search white ng-hide">
     <div class="app-search-content animated slideInUp" style="height:95%;">
         <div class="spacer" style="height: 20px;"></div>
-        <ion-item class="item-icon-right app-item-black">
-            <h2>{{tempBooking.booking_no}}</h2>
+        <ion-item class="item-icon-right app-item black">
+            <h2 class="app-cyan-font">{{tempBooking.booking_no}}</h2>
             <p>{{tempBooking.date}}</p>
-            <p style="color:red">{{tempBooking.status}}</p>
             <i class="icon">
-                <span class="ion-close-circled app-delete-button" ng-click="closeBookingDetail()"></span>
+                <span class="ion-close-circled app-delete-button app-cyan-font" ng-click="closeBookingDetail()"></span>
             </i>
         </ion-item>
-        <div class="spacer" style="height:10px;"></div>
-        <!--<div>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>-->
+        <ion-list >
+            <div style="margin:10px 15px 0 15px">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </ion-list>
+        <div class="button-bar app-button-bar">
+            <button class="button button-cyan button-block" ng-click="" title="Set Location">
+                <div class="ion-android-call">
+                    <font style="font-size:14px"> Call</font>
+                </div>
+            </button>
+            <div class="separator" style="width:2px;"></div>
+            <button class="button button-cyan button-block" ng-click="" title="Set Availability">
+                <div class="ion-android-textsms">
+                    <font style="font-size:14px"> Message</font>
+                </div>
+            </button>
+            <div class="separator" style="width:2px;"></div>
+            <button ng-show="tempBooking.status=='Reserved'" class="button button-cyan button-block ng-hide" ng-click="navigateToParking()" title="Upload Image">
+                <div class="ion-android-navigate">
+                    <font style="font-size:14px"> Navigate</font>
+                </div>
+            </button>
+            <button ng-show="tempBooking.status=='Arrived'"  class="button button-cyan button-block ng-hide" ng-click="clearBooking()" title="Upload Image">
+                <div class="ion-checkmark-circled">
+                    <font style="font-size:14px"> Clear</font>
+                </div>
+            </button>
+        </div>
+        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
-            <h2>Parking Space</h2>
-            <p>{{tempBooking.parking_slot_no}}: {{tempBooking.parking_title}}</p>
+            <h2>Status</h2>
+            <p>{{tempBooking.status}}</p>
         </ion-item>
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
-            <h2>Location</h2>
-            <p>{{tempBooking.parking_location}}</p>
+            <h2>Parking</h2>
+            <p>{{tempBooking.parking_slot_no}} {{tempBooking.parking_title}}</p>
         </ion-item>
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
-            <h2>From Date</h2>
-            <p>{{tempBooking.parking_date}} {{tempBooking.parking_hours[0]}}:00</p>
-        </ion-item>
-        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
-        <ion-item class="app-item white">
-            <h2>To Date</h2>
-            <p>{{tempBooking.parking_date}} {{tempBooking.parking_hours[tempBooking.parking_hours.length-1]}}:00</p>
+            <h2>Date</h2>
+            <p>{{tempBooking.parking_date}} {{tempBooking.parking_hours[0]}}:00 to {{tempBooking.parking_date}} {{tempBooking.parking_hours[tempBooking.parking_hours.length-1]}}:00</p>
         </ion-item>
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
@@ -59,102 +100,30 @@
             <p>Php {{tempBooking.rate}}</p>
         </ion-item>
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
-        <div ng-show="tempBooking.status!='Cancelled'" class="button-bar app-button-bar ng-hide">
-            <button class="button button-cyan button-block app-button" ng-click="navigateToParking()">
-                Navigate
-            </button>
-        </div>
-        <div ng-show="tempBooking.status!='Cancelled'" class="button-bar app-button-bar ng-hide">
-            <button class="button button-cyan button-block app-button" ng-click="cancelBooking()">
-                Cancel
+        <div ng-show="(tempBooking.status!='Cancelled' && tempBooking.status!='Cleared')" class="button-bar app-button-bar ng-hide">
+            <button class="button button-block app-button cyan" ng-click="cancelBooking()">
+                Cancel Booking
             </button>
         </div>
     </div>
 </div>
-
-<div ng-show="forms.navigateToParking" class="app-search white ng-hide">
-    <div class="app-search-content animated slideInUp" style="height:95%;">
+<div ng-show="forms.navigateToParking" class="app-search black ng-hide">
+    <div class="app-search-content animated slideInUp" style="height:95%;padding:10px">
         <div class="spacer" style="height: 20px;"></div>
-        <ion-item class="item-icon-right app-item-black">
-            <h2>{{tempBooking.booking_no}}</h2>
-            <p>{{tempBooking.date}}</p>
-            <p style="color:red">{{tempBooking.status}}</p>
+        <ion-item class="item-icon-right app-item black">
+            <h2 class="app-cyan-font">{{tempBooking.parking_slot_no}}</h2>
+            <p>{{tempBooking.parking_title}}</p>
             <i class="icon">
-                <span class="ion-close-circled app-delete-button" ng-click="closeBookingDetail()"></span>
+                <span class="ion-close-circled app-delete-button app-cyan-font" ng-click="closeNavigateToParking()"></span>
             </i>
         </ion-item>
-        <div class="spacer" style="height:10px;"></div>
-        <div>
+        <ion-list >
           <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-        <div class="button-bar app-button-bar">
-            <button class="button button-cyan button-block app-button" ng-click="cancelBooking()">
+        </ion-list>
+        <div class="button-bar">
+            <button class="button button-cyan button-block" ng-click="confirmBooking()">
                 I Have Arrived
             </button>
         </div>
     </div>
 </div>
-
-
-
-
-
-<!--<div ng-show="showBookingDetail" class="app-booking-details-form ng-hide">
-  <div class="app-booking-details-form-content animated slideInUp">
-    <ion-list>
-      <ion-item class="item-avatar item-icon-right">
-        <img src="img/car1.jpg">
-        <h2>{{tempBooking.parking_slot_no}}</h2>
-        <p>{{tempBooking.parking_title}}</p>
-        <i class="icon">
-          <span class="" style="font-size:14px;color:#2f5a78;">{{tempBooking.status}}</span>
-        </i>
-      </ion-item>
-      <div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d61775.15548236479!2d120.97862794751934!3d14.602082665223302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smckinley!5e0!3m2!1sen!2sph!4v1511877940969" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
-      </div>
-      <label class="item item-input app-item-border-top" name="date_from">
-        <span class="input-label app-input-label">Location:</span>
-        <span class="input-label app-input-sublabel" >{{tempBooking.parking_location}}</span>
-      </label>
-      <label class="item item-input app-item-no-border" name="date_from">
-        <span class="input-label app-input-label">From:</span>
-        <span class="input-label app-input-sublabel" >{{tempBooking.from_date}}</span>
-      </label>
-      <label class="item item-input app-item-no-border" name="date_to">
-        <span class="input-label app-input-label">To:</span>
-        <span class="input-label app-input-sublabel" >{{tempBooking.to_date}}</span>
-      </label>
-      <label class="item item-input app-item-border-bottom" name="date_to">
-        <span class="input-label app-input-label">Rate:</span>
-        <span class="input-label app-input-sublabel" >{{tempBooking.rate}}</span>
-      </label>
-      <div ng-show="tempBooking.status=='Reserved'" class="button-bar app-form-bar ng-hide">
-          <button class="button button-block app-button" ng-click="confirmBooking()">
-              I've Arrived
-          </button>
-          <button class="button button-block app-button" ng-click="cancelBooking()">
-              Cancel Booking
-          </button>
-      </div>
-      <div ng-show="tempBooking.status=='Arrived'" class="button-bar app-form-bar ng-hide">
-          <button class="button button-block app-button" ng-click="clearBooking()">
-              Parkway Clear
-          </button>
-          <button class="button button-block app-button" ng-click="cancelBooking()">
-              Cancel Booking
-          </button>
-      </div>
-      <div ng-show="tempBooking.status=='Cleared'" class="button-bar app-form-bar ng-hide">
-          <button class="button button-block app-button" ng-click="closeBookingDetail()">
-              Back to List
-          </button>
-      </div>
-      <div ng-show="tempBooking.status=='Cancelled'" class="button-bar app-form-bar ng-hide">
-          <button class="button button-block app-button" ng-click="closeBookingDetail()">
-              Back to List
-          </button>
-      </div>
-    </ion-list>
-  </div>
-</div>-->

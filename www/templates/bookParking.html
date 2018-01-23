@@ -9,13 +9,33 @@
         </ion-list>
     </ion-content>
 </ion-view>
+<div ng-show="forms.showButtons" class="app-search ng-hide">
+    <div class="app-search-content animated slideInUp">
+        <ion-list>
+            <ion-item class="item-icon-right app-item black">
+                Search Result
+                <i class="icon">
+                    <span class="ion-close-circled app-delete-button app-cyan-font" ng-click="closeSearchResult()"></span>
+                </i>
+            </ion-item>
+            <ion-item ng-repeat="parking in parkings track by $index" class="item-avatar item-icon-right" ng-click="viewParking(parking)">
+                <img src="img/car1.jpg">
+                <h2>{{parking.slot_no}}</h2>
+                <p>{{parking.title}}</p>
+                <i class="icon">
+                    <span class="" style="font-size:14px;color:#2f5a78;">Php {{parking.rate}} / Hr</span>
+                </i>
+            </ion-item>
+        </ion-list>
+    </div>
+</div>
 <div ng-show="forms.searchResult" class="app-search ng-hide">
     <div class="app-search-content animated slideInUp">
         <ion-list>
-            <ion-item class="item-divider item-icon-right">
+            <ion-item class="item-icon-right app-item black">
                 Search Result
                 <i class="icon">
-                    <span class="ion-close-circled app-delete-button" ng-click="closeSearchResult()"></span>
+                    <span class="ion-close-circled app-delete-button app-cyan-font" ng-click="closeSearchResult()"></span>
                 </i>
             </ion-item>
             <ion-item ng-repeat="parking in parkings track by $index" class="item-avatar item-icon-right" ng-click="viewParking(parking)">
@@ -32,12 +52,11 @@
 <div ng-show="forms.parkingDetails" class="app-search white ng-hide">
     <div class="app-search-content animated slideInUp" style="height:95%;">
         <div class="spacer" style="height: 20px;"></div>
-        <ion-item class="item-avatar item-icon-right app-item-white">
-            <img src="img/parking.png">
-            <h2>{{tempParking.slot_no}}</h2>
+        <ion-item class="item-icon-right app-item black">
+            <h2 class="app-cyan-font">{{tempParking.slot_no}}</h2>
             <p>{{tempParking.title}}</p>
             <i class="icon">
-                <span class="ion-close-circled app-delete-button" ng-click="backToSearch()"></span>
+                <span class="ion-close-circled app-delete-button app-cyan-font" ng-click="closeViewParking()"></span>
             </i>
         </ion-item>
         <ion-list >
@@ -45,6 +64,26 @@
                 <ion-slide-page ng-repeat="image in tempParking.images" style="background:url({{image}}) no-repeat center;background-size:cover;"></ion-slide-page>
             </ion-slides>
         </ion-list>
+        <div class="button-bar app-button-bar">
+            <button class="button button-cyan button-block" ng-click="" title="Set Location">
+                <div class="ion-android-call">
+                    <font style="font-size:14px"> Call</font>
+                </div>
+            </button>
+            <div class="separator" style="width:2px;"></div>
+            <button class="button button-cyan button-block" ng-click="" title="Set Availability">
+                <div class="ion-android-textsms">
+                    <font style="font-size:14px"> Message</font>
+                </div>
+            </button>
+            <div class="separator" style="width:2px;"></div>
+            <button class="button button-cyan button-block" ng-click="checkAvailability()" title="Upload Image">
+                <div class="ion-android-calendar">
+                    <font style="font-size:14px"> Calendar</font>
+                </div>
+            </button>
+        </div>
+        <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
             <h2>Title</h2>
             <p>{{tempParking.title}}</p>
@@ -62,13 +101,8 @@
         <div class="app-item-separator black" style="margin-left:15px;margin-right:20px;"></div>
         <ion-item class="app-item white">
             <h2>Description</h2>
-            <textarea placeholder="" style="margin-top:10px;height:100px;width:100%;color:#666666" ng-readonly="true" ng-model="tempParking.description"></textarea>
+            <textarea placeholder="" style="margin-top:10px;height:80px;width:100%;color:#666666" ng-readonly="true" ng-model="tempParking.description"></textarea>
         </ion-item>
-        <div class="button-bar app-button-bar">
-            <button class="button button-cyan button-block app-button" ng-click="checkAvailability(parking)">
-                Check Availability
-            </button>
-        </div>
     </div>
 </div>
 <div ng-show="forms.selectAvailableDay" class="calendar ng-hide">
@@ -77,7 +111,7 @@
             <div class="app-large-font app-cyan-font">{{tempParking.slot_no}}</div>
             <p> {{tempParking.title}}</p>
             <i class="icon">
-                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeAvailability()"></span>
+                <span class="ion-close-circled app-xlarge-font app-cyan-font" ng-click="closeCheckAvailability()"></span>
             </i>
         </ion-item>
         <div class="app-item-separator" style="margin:10px;"></div>
@@ -291,3 +325,33 @@
     </ion-list>
   </div>
 </div>
+<!--
+<div class="float-button animated bounceIn" style="bottom:5%;left:5%;">
+    <span class="height-fix">
+        <a class="content" ng-click="checkAvailability()">
+            <i class="icon ion-android-calendar"></i>
+        </a>
+    </span>
+</div>
+<div class="float-button animated bounceIn" style="bottom:5%;left:40%;">
+    <span class="height-fix">
+        <a class="content" ng-click="addPaymentMethod()">
+            <i class="icon ion-android-call"></i>
+        </a>
+    </span>
+</div>
+<div class="float-button animated bounceIn" style="bottom:5%;right:10%;">
+    <span class="height-fix">
+        <a class="content" ng-click="addPaymentMethod()">
+            <i class="icon ion-android-textsms"></i>
+        </a>
+    </span>
+</div>
+<div class="float-button" style="bottom:5%;left:5%;">
+    <span class="height-fix">
+        <a class="content" ng-click="addPaymentMethod()">
+            <i class="icon ion-android-calendar"></i>
+        </a>
+    </span>
+</div>
+-->

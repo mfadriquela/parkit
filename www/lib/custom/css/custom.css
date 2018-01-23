@@ -243,6 +243,12 @@ textarea {
     color:#000;
 }
 
+.app-item.red {
+    background-color:#c13131;
+    color:#000;
+}
+
+
 .app-item-separator {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -273,5 +279,55 @@ textarea {
 .app-button-bar-icon{
     font-size:20px;
     color:#777777;"
+}
+
+.app-button.cyan {
+    background-color:#1edfb3;
+    color:#000;
+}
+
+.app-button.black {
+    background-color:#000;
+    color:#fff;
+}
+
+.app-button.white {
+    background-color:#fff;
+    color:#000;
+}
+
+.app-button.red {
+    background-color:#c13131;
+    color:#000;
+}
+
+.float-button{
+    background-color:#000;
+    opacity:0.9;
+    color:#1edfb3;
+    border-radius:50%;
+    width:50px;
+    padding:25px;
+    font-size:40px;
+    position:fixed;
+    bottom:3%;
+    right:5%;
+    z-index:1000;
+}
+
+.float-button .height_fix{
+    margin-top:100%;
+    border: 1px solid red;
+}
+
+.float-button .content{
+    position:absolute;
+    left:0;
+    top:50%;
+    height:100%;
+    width:100%;
+    text-align:center;
+    margin-top:-20px;
+    color:#1edfb3;
 }
 
