@@ -1485,6 +1485,7 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     $scope.initialize = function(){
         $scope.forms = {
             showBookingDetail: false,
+            navigateToParking: false,
         };
 
         $scope.bookings = [];
@@ -1556,6 +1557,11 @@ function ($window, $state, $scope, $rootScope, $stateParams, $http) {
     $scope.closeBookingDetail = function(booking) {
         $scope.initialize();
     }
+
+    $scope.navigateToParking = function(){
+        $scope.hideAllForms();
+        $scope.forms.navigateToParking = true;
+    };
 
     $scope.confirmBooking = function(){
         var auth = JSON.parse($window.sessionStorage.auth);
